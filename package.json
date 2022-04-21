@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "MERN shopping cart app",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node backend/server",
     "dev2": "nodemon backend/server",
@@ -13,8 +14,10 @@
   "author": "Anna Zdyb",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.4.0",
     "dotenv": "^16.0.0",
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "mongoose": "^6.3.0"
   },
   "devDependencies": {
     "concurrently": "^7.1.0",
