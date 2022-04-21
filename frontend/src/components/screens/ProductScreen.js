@@ -4,7 +4,7 @@ import {Row, Col, Image, ListGroup, Card, Button, ListGroupItem} from 'react-boo
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import Rating from '../Rating';
-// import products from '../../products.js'
+ 
  
 
 const ProductScreen = () => {
