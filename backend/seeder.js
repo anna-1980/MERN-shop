@@ -8,6 +8,7 @@ import Order from './models/orderModel.js';
 import User from './models/userModel.js';
 import connectDB from './config/db.js';
 
+// VERY careful using this script, it will trplace EVERYTHING in your database with the stuff below!!!
 
 dotenv.config();
 
