@@ -1,10 +1,13 @@
 import {useEffect, useState} from 'react';
-import Product from '../Product';
 import {Row, Col} from 'react-bootstrap';
+import Product from '../Product';
 // import axios from 'axios';
 // import products from '../../products'
 import { useDispatch, useSelector} from 'react-redux';
 import  { listProducts } from '../../actions/ProductActions.js'; //you fire it off in useEffects
+
+import Message from '../Message.js';
+import Loader from '../Loader.js';
 
 const HomeScreen = () => {
   // const [products, setProducts = useState([])
@@ -33,9 +36,11 @@ const HomeScreen = () => {
     <> 
       <h1>Latest product</h1>
       {loading ? (
-      <h2 >Loading...</h2>   //is it loading?
+      <Loader />   //is it loading?
       ) : error ? (          // else, if there is an error we show that error
-      <h3>{error}</h3>
+      <Message
+      variant='danger'
+      >{error}</Message>
       ) : (
         <Row>
         {products.map( product => (
