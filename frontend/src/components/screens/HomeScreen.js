@@ -12,13 +12,13 @@ const HomeScreen = () => {
   //to muse Dispatch we need to declare a var and set it to useDispatch
   const dispatch = useDispatch();
 
-  const productList = useSelector( state => state.productList )  //get the piece of state the way you called it in the STORE: const reducer = combineReducers({ productList: productListReducer,
+  const productList = useSelector( state => state.productList )  //grabb the piece of state the way you called it in the STORE: const reducer = combineReducers({ productList: productListReducer,
   const { loading, error, products} = productList //destructures parts of that state that could be sent down, you jut pull it from the state here
   
   
   useEffect(() => {
 
-    dispatch(listProducts())
+    dispatch(listProducts()) //fire the action to get the products, through the REDUCER down to STATE
   
     // const fetchProducts = async () => {
     //   const {data} = await axios.get('/api/products')
