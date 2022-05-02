@@ -13,7 +13,7 @@ import axios from 'axios';
         try {
             dispatch({type:PRODUCT_LIST_REQUEST })
 
-            const { data } = await axios.get('/api/product') //this should give us the data
+            const { data } = await axios.get('/api/products') //this should give us the data
             //now
             dispatch ({
                 type: PRODUCT_LIST_SUCCESS,
