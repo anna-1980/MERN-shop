@@ -4,7 +4,6 @@ import {Row, Col, Image, ListGroup, Card, Button, ListGroupItem} from 'react-boo
 import {useParams} from 'react-router-dom';
 // import axios from 'axios';
 import Rating from '../Rating';
- 
 import Message from '../Message.js';
 import Loader from '../Loader.js';
 import { useDispatch, useSelector} from 'react-redux';
