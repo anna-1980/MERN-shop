@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
-import {Row, Col, Image, ListGroup, Card, Button, ListGroupItem} from 'react-bootstrap';
+import {Row, Col, Image, ListGroup, Card, Button, ListGroupItem, Form} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
 // import axios from 'axios';
 import Rating from '../Rating';
@@ -12,6 +12,7 @@ import { listProductDetails } from '../../actions/ProductActions.js'
 
 const ProductScreen = () => {
   // const [product, setProduct] = useState({});
+const [qtn, setQtn]= useState(0);
 const  dispatch = useDispatch();
 const productDetails = useSelector(state => state.productDetails)
 const { loading,  error, product} = productDetails 
@@ -77,13 +78,32 @@ const { loading,  error, product} = productDetails
                   {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
                 </Col>
               </Row>
+            </ListGroup.Item>
+
+            {product.countInStock > 0 && (
               <ListGroup.Item>
-                <Button 
-                className='btn-block' 
-                type='button'
-                disabled={product.countInStock === 0}
-                >Add to Cart</Button>
+                <Row>
+                  <Col>Qty</Col>
+                  <Col>
+                  <Form.Control as='select' value={qtn} onChange={(e)=> 
+                  setQtn(e.target.value)}>
+                 {   [...Array(product.countInStock).keys()].map((x) => (
+                      <option key={x + 1} value={x + 1}>
+                        {x + 1}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  </Col>
+                </Row>
               </ListGroup.Item>
+            )}
+
+            <ListGroup.Item>
+              <Button 
+              className='btn-block' 
+              type='button'
+              disabled={product.countInStock === 0}
+              >Add to Cart</Button>
             </ListGroup.Item>
 
           </ListGroup>
