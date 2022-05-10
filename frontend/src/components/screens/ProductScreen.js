@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react';
+ 
 import {Link} from 'react-router-dom';
-import {Row, Col, Image, ListGroup, Card, Button, ListGroupItem, Form} from 'react-bootstrap';
-import {useParams} from 'react-router-dom';
+import {Row, Col, Image, ListGroup, Card, Button, Form} from 'react-bootstrap';
+import {useParams, useNavigate} from 'react-router-dom';
 // import axios from 'axios';
 import Rating from '../Rating';
 import Message from '../Message.js';
@@ -16,6 +17,9 @@ const [qtn, setQtn]= useState(0);
 const  dispatch = useDispatch();
 const productDetails = useSelector(state => state.productDetails)
 const { loading,  error, product} = productDetails 
+let params = useParams();
+let navigate = useNavigate();
+console.log(params)
 
   useEffect(() => {
    
@@ -23,7 +27,14 @@ const { loading,  error, product} = productDetails
    
   }, [dispatch])
 
-  const params = useParams();
+  const addToCartHandler = () => {
+  
+    // console.log(navigate);
+    navigate(`/cart/${params.id}?qty=${qtn}`);
+    // history.push(`/cart/${params.id}?qty=${qty}`)
+     
+  }
+
   
   // const product = products.find((p) => p._id === params.id)
   // console.log(product)
@@ -100,6 +111,7 @@ const { loading,  error, product} = productDetails
 
             <ListGroup.Item>
               <Button 
+              onClick={addToCartHandler}
               className='btn-block' 
               type='button'
               disabled={product.countInStock === 0}
