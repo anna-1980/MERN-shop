@@ -13,18 +13,18 @@ import { listProductDetails } from '../../actions/ProductActions.js'
 
 const ProductScreen = () => {
   // const [product, setProduct] = useState({});
-const [qtn, setQtn]= useState(0);
+const [qtn, setQtn]= useState(1);
 const  dispatch = useDispatch();
 const productDetails = useSelector(state => state.productDetails)
 const { loading,  error, product} = productDetails 
 let params = useParams();
 let navigate = useNavigate();
-console.log(params)
+
 
   useEffect(() => {
    
     dispatch(listProductDetails(params.id))
-   
+    console.log(params);
   }, [dispatch])
 
   const addToCartHandler = () => {

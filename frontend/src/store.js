@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { productListReducer, productDetailsReducer} from './reducers/productReducers' 
-import { cartReducer } from './reducers/cartReducers';
+import { cartReducer } from './reducers/cartReducers.js';
 
 const reducer = combineReducers({
     productList: productListReducer,      // this will be the producsList reducer part of the STATE, you can get that piece of state in components by useSelector 
@@ -11,7 +11,14 @@ const reducer = combineReducers({
     cart: cartReducer,
 });
 
-const initialState = {};
+const cartItemsFromStorage = localStorage.getItem('cartItems') 
+? JSON.parse(localStorage.getItem('cartItems'))
+: [] ;
+
+const initialState = {
+    cart: { cartItems: cartItemsFromStorage}
+    // cart: { cartItem: "cart loaded"}
+};
 
 const middleware = [thunk];
 

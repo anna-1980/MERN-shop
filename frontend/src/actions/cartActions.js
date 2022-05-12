@@ -1,7 +1,7 @@
 import axios from 'axios';  // because we need to make a request the the API to get the data for that particular product
 import {CART_ADD_ITEM} from '../constants/cartConstants.js';
 
-export const addToCart = (id, qty) => async(dispatch, getState) => {
+export const addToCart = (id, qty) => async (dispatch, getState) => {
     const {data} = await axios.get(`/api/products/${id}`)
 
     dispatch ({
