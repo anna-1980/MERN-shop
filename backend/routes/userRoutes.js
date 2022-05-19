@@ -1,14 +1,17 @@
 import express from 'express'
 import {
   authUser,
-  getUserProfile 
-} from '../controllers/userController.js' 
+  registerUser,
+  getUserProfile, 
+
+} from '../controllers/userController.js';
+import { protect } from '../middleware/authMiddleware.js';
  
 
 const router = express.Router()
  
- 
+router.route('/').post(registerUser)
 router.post('/login', authUser)
-router.route('/profile', authUser).get(getUserProfile)
+router.route('/profile').get(protect, getUserProfile)  // to implement middleware we just put it as a first argument
 
 export default router
