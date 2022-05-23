@@ -4,11 +4,11 @@ import {Link} from 'react-router-dom';
 import {Row, Col, Image, ListGroup, Card, Button, Form} from 'react-bootstrap';
 import {useParams, useNavigate} from 'react-router-dom';
 // import axios from 'axios';
-import Rating from '../Rating';
-import Message from '../Message.js';
-import Loader from '../Loader.js';
+import Rating from '../components/Rating';
+import Message from '../components/Message.js';
+import Loader from '../components/Loader.js';
 import { useDispatch, useSelector} from 'react-redux';
-import { listProductDetails } from '../../actions/ProductActions.js'
+import { listProductDetails } from '../actions/ProductActions.js'
  
 
 const ProductScreen = () => {
@@ -17,6 +17,8 @@ const [qtn, setQtn]= useState(1);
 const  dispatch = useDispatch();
 const productDetails = useSelector(state => state.productDetails)
 const { loading,  error, product} = productDetails 
+const userLogin = useSelector(state => state.userLogin);
+const {name} = userLogin;
 let params = useParams();
 let navigate = useNavigate();
 
@@ -121,9 +123,11 @@ let navigate = useNavigate();
           </ListGroup>
         </Card>
       </Col>
+  
     </Row>
     )
     }
+ 
 
     </>
   )
