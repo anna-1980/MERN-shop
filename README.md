@@ -7,5 +7,5 @@ So far going good.
 
 
 
-# MERN-shop
+
 learning MERN stack (Brad Traversy, Udemy)
