@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import {Link, useParams, useNavigate, useLocation, Route} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import {Row, Col, ListGroup, Image, Form, Button, Card} from 'react-bootstrap';
-import Message from "../Message.js";
-import { addToCart, removeFromCart } from "../../actions/cartActions.js";
+import Message from "../components/Message.js";
+import { addToCart, removeFromCart } from "../actions/cartActions.js";
 
 
 

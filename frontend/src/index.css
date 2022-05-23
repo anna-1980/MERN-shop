@@ -16,6 +16,9 @@ h3{
   padding: 1rem 0;
 }
 
+h4{
+  color:rgb(189, 189, 189);
+}
 .rating span {
   margin: 0.1rem;
 }

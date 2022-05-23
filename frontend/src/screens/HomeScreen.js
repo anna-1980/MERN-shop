@@ -1,13 +1,13 @@
 import {useEffect, useState} from 'react';
 import {Row, Col} from 'react-bootstrap';
-import Product from '../Product';
+import Product from '../components/Product';
 // import axios from 'axios';
 // import products from '../../products'
 import { useDispatch, useSelector} from 'react-redux';
-import  { listProducts } from '../../actions/ProductActions.js'; //you fire it off in useEffects
+import  { listProducts } from '../actions/ProductActions.js'; //you fire it off in useEffects
 
-import Message from '../Message.js';
-import Loader from '../Loader.js';
+import Message from '../components/Message.js';
+import Loader from '../components/Loader.js';
 
 const HomeScreen = () => {
   // const [products, setProducts = useState([])
@@ -17,7 +17,8 @@ const HomeScreen = () => {
 
   const productList = useSelector( state => state.productList )  //grabb the piece of state the way you called it in the STORE: const reducer = combineReducers({ productList: productListReducer,
   const { loading, error, products} = productList //destructures parts of that state that could be sent down, you jut pull it from the state here
-  
+  const userLogin = useSelector(state => state.userLogin);
+  const {userInfo} = userLogin;
   
   useEffect(() => {
 
@@ -31,10 +32,22 @@ const HomeScreen = () => {
   }, [dispatch])
 
  
-
+  // console.log(userInfo.name);
   return (
     <> 
       <h1>Latest product</h1>
+      {userLogin ? (
+         
+         <Col sx={6} md={6}>
+         <h4>Logged In as: {userInfo.name}</h4>
+          
+         </Col>
+      )
+      :
+     ( <Col sx={6} md={6}>
+      <h1>Welcome stranger</h1>
+      </Col>)
+       }
       {loading ? (
       <Loader />   //is it loading?
       ) : error ? (          // else, if there is an error we show that error
@@ -54,7 +67,8 @@ const HomeScreen = () => {
       </Row>
       )               
        }
-  
+
+     
 
     </>
   )
