@@ -17,7 +17,7 @@ const HomeScreen = () => {
 
   const productList = useSelector( state => state.productList )  //grabb the piece of state the way you called it in the STORE: const reducer = combineReducers({ productList: productListReducer,
   const { loading, error, products} = productList //destructures parts of that state that could be sent down, you jut pull it from the state here
-  const userLogin = useSelector(state => state.userLogin);
+  const userLogin = useSelector( state => state.userLogin); 
   const {userInfo} = userLogin;
   
   useEffect(() => {
@@ -31,23 +31,26 @@ const HomeScreen = () => {
     // fetchProducts()
   }, [dispatch])
 
- 
+  const currentUser = true ||  userInfo.name;
   // console.log(userInfo.name);
   return (
     <> 
       <h1>Latest product</h1>
-      {userLogin ? (
+      {  userInfo  ? (
          
          <Col sx={6} md={6}>
-         <h4>Logged In as: {userInfo.name}</h4>
-          
+         {/* <h4>Logged In as: {userInfo.name}</h4> */}
+         <h4>Logged In as: {userInfo.name} </h4>
+           
          </Col>
       )
       :
      ( <Col sx={6} md={6}>
-      <h1>Welcome stranger</h1>
+      <h4>Welcome stranger</h4>
       </Col>)
        }
+
+
       {loading ? (
       <Loader />   //is it loading?
       ) : error ? (          // else, if there is an error we show that error
