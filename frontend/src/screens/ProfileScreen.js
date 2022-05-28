@@ -23,7 +23,7 @@ const ProfileScreen = () => {
 
   const userDetails = useSelector((state) => state.userDetails);
   const {loading, error, user} = userDetails;
-  console.log(userDetails)
+  console.log(userDetails.user.name)
 
   const userLogin = useSelector((state) => state.userLogin);
   const {userInfo} = userLogin;
@@ -37,13 +37,13 @@ const ProfileScreen = () => {
         if(!user.name){
             dispatch(getUserDetails('profile'))
         }else{
-            setName(user.name)
-            setEmail(user.email) 
+            setName(userDetails.user.name)
+            setEmail(userDetails.user.email) 
 
         }
      }
 
-  }, [dispatch, navigate, userInfo])
+  }, [dispatch, navigate, userInfo, user])
   
   const submitHandler = (e) => {
     e.preventDefault()

@@ -96,7 +96,7 @@ export const getUserDetails = ( id) => async (dispatch, getState) => {      //us
         })
 
         const { userLogin: { userInfo }} = getState(); //destructure from useState  -> userLogin -> userInfo which is in userLogin
-        console.log(userInfo)
+        // console.log(userInfo)
         const config = {
             headers:{
                 'Content-Type': 'application/json', 
