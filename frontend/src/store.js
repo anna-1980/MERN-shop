@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { productListReducer, productDetailsReducer} from './reducers/productReducers' 
 import { cartReducer } from './reducers/cartReducers.js';
-import { userLoginReducer, userRegisterReducer, userDetailsReducer } from './reducers/userReducers.js';
+import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers.js';
 
 const reducer = combineReducers({
     productList: productListReducer,      // this will be the producsList reducer part of the STATE, you can get that piece of state in components by useSelector 
@@ -13,6 +13,7 @@ const reducer = combineReducers({
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
+    userUpdateProfile: userUpdateProfileReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo') 
