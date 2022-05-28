@@ -6,7 +6,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message.js';
 import FormContainer from '../components/FormContainer.js';
 import { getUserDetails, updateUserProfile } from '../actions/userActions.js'
- 
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'; 
 
 
 const ProfileScreen = () => {
@@ -36,7 +36,8 @@ const ProfileScreen = () => {
          navigate('/login')
       //  console.log('user logged in')
      }else{
-        if(!user.name){
+        if(!user.name || success){
+            dispatch({type: USER_UPDATE_PROFILE_RESET})
             dispatch(getUserDetails('profile'))
         }else{
             setName(userDetails.user.name)
@@ -45,7 +46,7 @@ const ProfileScreen = () => {
         }
      }
 
-  }, [dispatch, navigate, userInfo, user])
+  }, [dispatch, navigate, userInfo, user, success])
   
   const submitHandler = (e) => {
     e.preventDefault()
