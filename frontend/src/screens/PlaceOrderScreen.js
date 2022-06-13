@@ -56,7 +56,7 @@ const PlaceOrderScreen = () => {
                         cart.cartItems.map((item, index) => ( 
                             <ListGroup.Item key={index}>
                                 <Row >
-                                    <Col md={1}>
+                                    <Col md={2}>
                                         <Image src={item.image} alt={item.name}
                                         fluid
                                         rouded
@@ -110,7 +110,7 @@ const PlaceOrderScreen = () => {
                     <ListGroup.Item>
                         <Row>
                             <Col>Total Price:</Col>
-                            <Col>cart TotalPrice</Col>
+                            <Col>{cart.TotalPrice}</Col>
                         </Row>
                     </ListGroup.Item>
                     <ListGroup.Item>
