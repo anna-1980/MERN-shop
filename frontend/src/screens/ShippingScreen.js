@@ -1,9 +1,9 @@
 import {useState} from 'react';
-import {  useNavigate, useLocation } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { Form, Button} from 'react-bootstrap';
 import   {useDispatch, useSelector}  from 'react-redux';
 import FormContainer from '../components/FormContainer.js';
-import { register } from '../actions/userActions.js'
+import CheckoutSteps from './CheckoutSteps.js';
 import { saveShippingAddress } from '../actions/cartActions.js';
 
 const ShippingScreen = () => {
@@ -21,7 +21,7 @@ const ShippingScreen = () => {
     const submitHandler = (e) => {
         e.preventDefault();
         console.log('submit')
-        //action SAVE_SHIPPING_ADDRESS to be dispatched hier 
+        //action SAVE_SHIPPING_ADDRESS to be dispatched here 
         dispatch(saveShippingAddress({
             address, 
             city, 
@@ -33,6 +33,7 @@ const ShippingScreen = () => {
 
   return (
     <FormContainer>
+        <CheckoutSteps step1 step2 />
         <h1>Shipping</h1>
         <Form onSubmit={submitHandler}>
             <Form.Group controlId= 'address'>
@@ -69,7 +70,7 @@ const ShippingScreen = () => {
             </Form.Group>
 
             <Form.Group controlId= 'country'>
-            <Form.Label>Postal code</Form.Label>
+            <Form.Label>Country</Form.Label>
             <Form.Control 
                 type='text' 
                 placeholder='Enter country' 

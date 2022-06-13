@@ -20,6 +20,7 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
 ? JSON.parse(localStorage.getItem('userInfo'))
 : null ; // if no user data in local storage then return null
 
+// check/bring in the shipping address from LocalStorage
 const shippingAddressFromStorage = localStorage.getItem('shippingAddress') 
 ? JSON.parse(localStorage.getItem('shippingAddress'))
 : {} ;  

@@ -31,7 +31,7 @@ export const cartReducer = (state = { cartItems:[], shippingAddress: {}}, action
           case CART_SAVE_SHIPPING_ADDRESS:
             return {
                 ...state, 
-                shippingAddress: action.payload,
+                shippingAddress: action.payload,  // the data passed in from the form in ShippingScreen
             }
 
           default: 
