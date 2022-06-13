@@ -5,7 +5,7 @@ import {
   CART_SAVE_PAYMENT_METHOD
  } from '../constants/cartConstants.js'
 
-export const cartReducer = (state = { cartItems:[], shippingAddress: {}}, action) => {
+export const cartReducer = (state = { cartItems:[], shippingAddress: {},  paymentMethod:{}}, action) => {
     switch(action.type) {
         case CART_ADD_ITEM:
           const item = action.payload //to check if there is already an item in the cart

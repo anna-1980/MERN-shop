@@ -4,7 +4,7 @@ import { Form, Button, Col, Row, FormLabel} from 'react-bootstrap';
 import   {useDispatch, useSelector}  from 'react-redux';
 import FormContainer from '../components/FormContainer.js';
 import CheckoutSteps from './CheckoutSteps.js';
-import { savePaymentMethod } from '../actions/cartActions.js';
+import { savePaymentMethod, paymentMethod } from '../actions/cartActions.js';
 
 const PaymentScreen = () => {
     let navigate = useNavigate();
@@ -21,12 +21,12 @@ const PaymentScreen = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log('submit')
-        //action SAVE_SHIPPING_ADDRESS to be dispatched here 
+        //action CART_SAVE_PAYMENT_METHOD to be dispatched here 
         dispatch(savePaymentMethod({
             paymentMethod
         }))
         navigate(`/placeorder`);
+        
     }
 
   return (
@@ -40,7 +40,6 @@ const PaymentScreen = () => {
             <Col className='mb-4'>
               <Row  className='mb-2'>
               <Form.Check 
-              
                type='radio'
                label='PayPal or Credit Card'
                id='PayPal' 
@@ -48,7 +47,6 @@ const PaymentScreen = () => {
                value='PayPal'
                checked
                onChenge={(e)=> setPaymentMethod(e.target.value) }>
-                   
                </Form.Check>
               </Row>
               <Row  className='mb-2'>
