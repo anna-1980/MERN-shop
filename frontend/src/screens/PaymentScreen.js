@@ -1,10 +1,10 @@
 import {useState} from 'react';
 import {  useNavigate } from 'react-router-dom';
-import { Form, Button, Col, FormLabel} from 'react-bootstrap';
+import { Form, Button, Col, Row, FormLabel} from 'react-bootstrap';
 import   {useDispatch, useSelector}  from 'react-redux';
 import FormContainer from '../components/FormContainer.js';
 import CheckoutSteps from './CheckoutSteps.js';
-import { savePymentMethod } from '../actions/cartActions.js';
+import { savePaymentMethod } from '../actions/cartActions.js';
 
 const PaymentScreen = () => {
     let navigate = useNavigate();
@@ -33,25 +33,42 @@ const PaymentScreen = () => {
     <FormContainer>
         <CheckoutSteps step1 step2 />
         <h1>Shipping</h1>
-        <Form onSubmit={submitHandler}>
+        <Form onSubmit={submitHandler} >
             <Form.Group>
-                <FormLabel as='legend'>Select Method</FormLabel>
-
-            </Form.Group>
-            <Col>
-               <Form.Check 
+                <FormLabel className='mb-3' as='legend'>Select Method</FormLabel>
+          
+            <Col className='mb-4'>
+              <Row  className='mb-2'>
+              <Form.Check 
+              
                type='radio'
                label='PayPal or Credit Card'
                id='PayPal' 
                name ='PaymentMethod'
                value='PayPal'
                checked
-               onChenge={(e)=> setPaymentMethod(e.target.value) }></Form.Check>
+               onChenge={(e)=> setPaymentMethod(e.target.value) }>
+                   
+               </Form.Check>
+              </Row>
+              <Row  className='mb-2'>
+               <Form.Check 
+               type='radio'
+               label='Stripe'
+               id='Stripe' 
+               name ='PaymentMethod'
+               value='Stripe'
+               onChenge={(e)=> setPaymentMethod(e.target.value) }>
+
+               </Form.Check>
+             </Row>
             </Col>
+           
             <Button 
             type='submit' 
             variant='primary'>
                 Continue</Button>
+            </Form.Group>
         </Form>
     </FormContainer>
   )
