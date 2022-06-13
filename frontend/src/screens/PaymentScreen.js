@@ -15,13 +15,14 @@ const PaymentScreen = () => {
         navigate(`/shipping`)
     }
 
-    const [paymentMethod, setPaymentMethod] = useState('PayPal');
-   
+    const [paymentMethod, setPaymentMethod] = useState('');
+    console.log(paymentMethod)
     const dispatch = useDispatch();
 
     const submitHandler = (e) => {
         e.preventDefault();
         //action CART_SAVE_PAYMENT_METHOD to be dispatched here 
+        
         dispatch(savePaymentMethod({
             paymentMethod
         }))
@@ -45,8 +46,8 @@ const PaymentScreen = () => {
                id='PayPal' 
                name ='PaymentMethod'
                value='PayPal'
-               checked
-               onChenge={(e)=> setPaymentMethod(e.target.value) }>
+               
+               onChange={(e)=> setPaymentMethod(e.target.value)}>
                </Form.Check>
               </Row>
               <Row  className='mb-2'>
@@ -56,7 +57,7 @@ const PaymentScreen = () => {
                id='Stripe' 
                name ='PaymentMethod'
                value='Stripe'
-               onChenge={(e)=> setPaymentMethod(e.target.value) }>
+               onChange={(e)=> setPaymentMethod(e.target.value) }>
 
                </Form.Check>
              </Row>
