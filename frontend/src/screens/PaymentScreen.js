@@ -4,7 +4,7 @@ import { Form, Button, Col, Row, FormLabel} from 'react-bootstrap';
 import   {useDispatch, useSelector}  from 'react-redux';
 import FormContainer from '../components/FormContainer.js';
 import CheckoutSteps from './CheckoutSteps.js';
-import { savePaymentMethod, paymentMethod } from '../actions/cartActions.js';
+import { savePaymentMethod  } from '../actions/cartActions.js';
 
 const PaymentScreen = () => {
     let navigate = useNavigate();

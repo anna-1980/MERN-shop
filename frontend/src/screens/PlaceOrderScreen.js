@@ -1,43 +1,46 @@
-import {useState, useEffect} from 'react';
+import { useEffect} from 'react';
 import { Button, Row, Col, ListGroup, Image, Card} from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import   {useDispatch, useSelector}  from 'react-redux';
 import Message from '../components/Message.js';
 import CheckoutSteps from './CheckoutSteps.js';
-import { saveShippingAddress } from '../actions/cartActions.js';
-import { createOrder } from '../actions/orderActions.js'
+// import { saveShippingAddress } from '../actions/cartActions.js';
+import { createOrder } from '../actions/orderActions.js';
+
 
 const PlaceOrderScreen = () => {
     const dispatch = useDispatch();
-    let navigate = useNavigate();
+    let navigate = useNavigate(); 
     const cart = useSelector(state => state.cart)
     // console.log(cart.cartItems)
-
+    const orderCreate = useSelector((state) => state.orderCreate);
+    const { order, success, error } = orderCreate;
+    console.log(`id missing from ORDER ${orderCreate}`)
     // make sure 2 decimal places are showign at all times
    const addDecimals = (num) => {
        return (Math.round(num *100)/ 100).toFixed(2)
    }
     //calculate Prices:
-    cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2))
-    cart.shippingPrice = addDecimals(cart.itemsPrice > 50 ? 0 : 50) 
-    cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)))
-    cart.TotalPrice = addDecimals((Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2))
-
-   const orderCreate = useSelector(state => state.orderCreate);
-   const { order, success, error} = orderCreate;
+    cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2));
+    cart.shippingPrice = addDecimals(cart.itemsPrice > 50 ? 0 : 50) ;
+    cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
+    cart.TotalPrice = addDecimals((Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2));
 
     useEffect(() => {
         if(success){
-            navigate(`/order/${order._id}`)
+            navigate(`/order/${order._id}`);
         }
+      // eslint-disable-next-line
+    }, [  success ]);
+ 
 
-    }, [ success]);
 
-    console.log(cart);
-    console.log(`show me ORDER ${orderCreate}`);
-
+    const user = useSelector((state) => state.userLogin);
+    const {userInfo } = user;
+    
     const placeOrderHandler = () => {
         dispatch(createOrder({
+            user: userInfo._id,
             orderItems: cart.cartItems,
             shippingAddress: cart.shippingAddress,
             paymentMethod: cart.paymentMethod.paymentMethod,

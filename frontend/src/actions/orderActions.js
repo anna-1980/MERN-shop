@@ -30,7 +30,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
             type:  ORDER_CREATE_SUCCESS, 
             payload: data,
         })
-         localStorage.setItem('orderInfo', JSON.stringify(data))
+         
       
 
     } catch (error){
