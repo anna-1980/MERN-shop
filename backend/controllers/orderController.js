@@ -8,7 +8,7 @@ import Order from '../models/orderModel.js'
 const addOrderItems = asyncHandler(async (req, res) => {
      const { 
          orderItems, 
-         shoppingAddress, 
+         shippingAddress, 
          paymentMethod, 
          itemsPrice, 
          taxPrice, 
@@ -22,7 +22,7 @@ if(orderItems && orderItems.length === 0) {
     const order = new Order({
          user: req.user._id, 
          orderItems, 
-         shoppingAddress, 
+         shippingAddress, 
          paymentMethod, 
          itemsPrice, 
          taxPrice, 
@@ -32,7 +32,23 @@ if(orderItems && orderItems.length === 0) {
 
     const createdOrder = await order.save()
 
-    res.status(201).json({message: "Order was created"})
+    res.status(201).json(createdOrder)
 }})
 
-export { addOrderItems };
+// description get ORDER by ID 
+// @route GET/api/orders/:id
+// @access Private
+
+const getOrderById = asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id).populate('user', 'name email') // because User is tederred to the order so you can pull data of the user who placed the order   
+
+    if(order){
+        res.json(order)
+    }else{
+        res.status(404)
+        throw new Error ('Order not found')
+    }
+
+})
+
+export { addOrderItems, getOrderById };
