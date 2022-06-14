@@ -1,5 +1,6 @@
-import { useEffect} from 'react';
-import { Button, Row, Col, ListGroup, Image, Card} from 'react-bootstrap';
+import { useEffect, useState} from 'react';
+import axios from 'axios';
+import {  Row, Col, ListGroup, Image, Card} from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import   {useDispatch, useSelector}  from 'react-redux';
 import Message from '../components/Message.js';
@@ -12,21 +13,48 @@ const OrderScreen = ( ) => {
     let params = useParams();
     const orderId = params.id;
     // console.log(orderId);
+    const [sdkReady, setSdkReady] = useState(false);
     const dispatch = useDispatch();
     let navigate = useNavigate(); 
     const orderDetails = useSelector((state) => state.orderDetails);
     const { order, success, error, loading } = orderDetails;
+    const orderPay = useSelector((state) => state.orderPay);
+    //rename the existing var 
+    const { success: successPay,  loading: loadingPay } = orderPay;
     // console.log(`id missing PARAMS for ID ${params.id}`)
-    console.log(`OrderScreen -  ${order}`)
+    // console.log(`OrderScreen -  ${order}`)
  
     
     useEffect(() => {
+        const addPayPalScript = async () => {
+            const { data: clientId} = await axios.get('/api/config/paypal')
+            // console.log( clientId )
+            const script = document.createElement('script') 
+            script.type = 'text/javascript' 
+            script.async = true 
+            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}` 
+            script.onload = () => {
+                setSdkReady(true)
+            }
+            document.body.appendChild(script)
+        }
+
+        addPayPalScript()
+        if(!order || successPay ){
+            dispatch(getOrderDetails(orderId))
+        } else if(!order.isPaid){
+            if(!window.paypal){   //if the order isn't paid it will ass PayPal script
+                addPayPalScript()
+            }else{
+                setSdkReady(true)
+            }
+        }
         //a check to ensure it is the most recent order is being display
         if(!order || order._id !== orderId){
             dispatch(getOrderDetails(orderId))
         }
 
-    }, [order, orderId]);
+    }, [order, orderId, successPay]);
 
   return  loading ? <Loader /> 
   : error ? <Message variant='danger'>{error}</Message> 
