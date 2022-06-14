@@ -1,12 +1,14 @@
 import { useEffect, useState} from 'react';
 import axios from 'axios';
+import { PayPalButton } from 'react-paypal-button-v2';
 import {  Row, Col, ListGroup, Image, Card} from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import   {useDispatch, useSelector}  from 'react-redux';
 import Message from '../components/Message.js';
 import Loader from '../components/Loader';
 // import { saveShippingAddress } from '../actions/cartActions.js';
-import { getOrderDetails } from '../actions/orderActions.js';
+import { getOrderDetails, payOrder } from '../actions/orderActions.js';
+import { ORDER_PAY_RESET } from '../constants/orderConstants.js'
 
 
 const OrderScreen = ( ) => {
@@ -41,6 +43,8 @@ const OrderScreen = ( ) => {
 
         addPayPalScript()
         if(!order || successPay ){
+            // if not done after paying it will keep refreshing!
+            dispatch({ type: ORDER_PAY_RESET}) 
             dispatch(getOrderDetails(orderId))
         } else if(!order.isPaid){
             if(!window.paypal){   //if the order isn't paid it will ass PayPal script
@@ -54,7 +58,12 @@ const OrderScreen = ( ) => {
             dispatch(getOrderDetails(orderId))
         }
 
-    }, [order, orderId, successPay]);
+    }, [ orderId, success, order,]);
+
+    const successPaymentHandler = (paymentResult) => {
+        console.log(paymentResult);
+        dispatch(payOrder(orderId, paymentResult))
+    }
 
   return  loading ? <Loader /> 
   : error ? <Message variant='danger'>{error}</Message> 
@@ -159,7 +168,19 @@ const OrderScreen = ( ) => {
                             <Col>$ {order.totalPrice}</Col>
                         </Row>
                     </ListGroup.Item>
-                   
+                    {!order.isPaid && (
+                        <ListGroup.Item>
+                            {loadingPay && <Loader />}
+                            {!sdkReady ? <Loader />
+                            : (
+                                <PayPalButton
+                                amount={order.totalPrice}
+                                onSuccess={successPaymentHandler}
+                                ></PayPalButton>
+                            )
+                            }
+                        </ListGroup.Item>
+                    )}
                     {/* <ListGroup.Item>
                             <Button 
                             type='button'
@@ -175,3 +196,7 @@ const OrderScreen = ( ) => {
 }
 
 export default OrderScreen
+
+// Comments/resources
+// https://www.npmjs.com/package/react-paypal-button-v2
+//https://developer.paypal.com/sdk/js/configuration/
