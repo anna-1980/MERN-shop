@@ -1,21 +1,22 @@
 import { useEffect} from 'react';
 import { Button, Row, Col, ListGroup, Image, Card} from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import   {useDispatch, useSelector}  from 'react-redux';
 import Message from '../components/Message.js';
-import Loader from './Loader.js';
+import Loader from '../components/Loader';
 // import { saveShippingAddress } from '../actions/cartActions.js';
 import { getOrderDetails } from '../actions/orderActions.js';
 
 
-const OrderScreen = ({match}) => {
-    const orderId = match.params.id;
-    console.log(orderId);
+const OrderScreen = ( ) => {
+    let params = useParams();
+    const orderId = params.id;
+    // console.log(orderId);
     const dispatch = useDispatch();
     let navigate = useNavigate(); 
     const orderDetails = useSelector((state) => state.orderDetails);
-    const { order, success, error } = orderDetails;
-    console.log(`id missing from ORDERScreen ${order}`)
+    const { order, success, error, loading } = orderDetails;
+    console.log(`id missing PARAMS for ID ${params.id}`)
  
     
     useEffect(() => {
@@ -49,7 +50,7 @@ const OrderScreen = ({match}) => {
                <ListGroup.Item>
                    <h2>Order Items</h2>
                     {order.orderItems.lenght === 0 ? 
-                    <Message> Your Cart Is Empty</Message>
+                    <Message> Order Is Empty</Message>
                 : (
                     <ListGroup variant ="flush">
                         {
@@ -113,16 +114,14 @@ const OrderScreen = ({match}) => {
                             <Col>{order.totalPrice}</Col>
                         </Row>
                     </ListGroup.Item>
-                        <ListGroup.Item>
-                            {error && <Message variant='danger'>{error}</Message>}
-                        </ListGroup.Item>
-                    <ListGroup.Item>
+                   
+                    {/* <ListGroup.Item>
                             <Button 
                             type='button'
                             className='btn=block'
                             disabled={cart.cartItems === 0}
                             onClick={placeOrderHandler}>Place Order</Button>
-                    </ListGroup.Item>
+                    </ListGroup.Item> */}
                 </ListGroup>
             </Card>
         </Col>

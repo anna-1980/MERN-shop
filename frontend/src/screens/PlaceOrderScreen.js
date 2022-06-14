@@ -30,8 +30,8 @@ const PlaceOrderScreen = () => {
     useEffect(() => {
         if(success){
             navigate(`/order/${order._id}`);
-            console.log(`from placeOrderScreen, should be UserId ${order.user}`)
-            console.log(`from placeOrderScreen, should be Address ${Object.values(order)}`)
+            // console.log(`from placeOrderScreen, should be UserId ${order.user}`)
+            // console.log(`from placeOrderScreen, should be Address ${Object.values(order)}`)
         }
       // eslint-disable-next-line
     }, [  success ]);
