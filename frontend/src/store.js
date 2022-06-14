@@ -5,6 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { productListReducer, productDetailsReducer} from './reducers/productReducers' 
 import { cartReducer } from './reducers/cartReducers.js';
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers.js';
+import { orderCreateReducer, orderDetailsReducer } from './reducers/orderReducers.js'
 
 const reducer = combineReducers({
     productList: productListReducer,      // this will be the producsList reducer part of the STATE, you can get that piece of state in components by useSelector 
@@ -14,18 +15,32 @@ const reducer = combineReducers({
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
     userUpdateProfile: userUpdateProfileReducer,
+    orderCreate: orderCreateReducer,
+    orderDetails: orderDetailsReducer,
 });
+
+ 
 
 const userInfoFromStorage = localStorage.getItem('userInfo') 
 ? JSON.parse(localStorage.getItem('userInfo'))
 : null ; // if no user data in local storage then return null
+
+// check/bring in the shipping address from LocalStorage
+const shippingAddressFromStorage = localStorage.getItem('shippingAddress') 
+? JSON.parse(localStorage.getItem('shippingAddress'))
+: {} ; 
+
+// check/bring in payment Method from LocalStorage
+const paymentMethodFromStorage = localStorage.getItem('paymentMethod') 
+? JSON.parse(localStorage.getItem('paymentMethod'))
+: {} ; 
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') 
 ? JSON.parse(localStorage.getItem('cartItems'))
 : [] ;
 
 const initialState = {
-    cart: { cartItems: cartItemsFromStorage},
+    cart: { cartItems: cartItemsFromStorage, shippingAddress: shippingAddressFromStorage, paymentMethod: paymentMethodFromStorage},
     // cart: { cartItem: "cart loaded"}
     userLogin: { userInfo: userInfoFromStorage},
 };

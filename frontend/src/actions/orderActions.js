@@ -1,0 +1,89 @@
+import axios from 'axios';
+import {
+    ORDER_CREATE_REQUEST,
+    ORDER_CREATE_SUCCESS,
+    ORDER_CREATE_FAIL,
+    ORDER_DETAILS_REQUEST,
+    ORDER_DETAILS_SUCCESS,
+    ORDER_DETAILS_FAIL,
+} from '../constants/orderConstants.js';
+
+
+export const createOrder = (order) => async (dispatch, getState) => {        
+    try{
+        dispatch({
+            type: ORDER_CREATE_REQUEST,
+        })
+
+        const { userLogin: { userInfo }} = getState(); //destructure from useState  -> userLogin -> userInfo which is in userLogin
+        // console.log(userInfo)
+        const config = {
+            headers:{
+                'Content-Type': 'application/json', 
+                Authorization:`Bearer ${userInfo.token}`
+            },
+        }
+
+        const { data } = await axios.post(`/api/orders`, order, config)
+
+        dispatch ({
+            type:  ORDER_CREATE_SUCCESS, 
+            payload: data,
+            ///!!!! orderItems are there but I cannot get a grip on address details???
+        //     payload: {
+        //         _id: data._id,
+        //         address: data.itemsPrice,
+        //         city:  data.shippingAddress.city,
+        //         postalCode: data.shippingAddress.postalCode,
+        //         country: data.shippingAddress.country,
+        // },
+        })
+         
+      
+
+    } catch (error){
+        dispatch({
+            type: ORDER_CREATE_FAIL,
+            payload: 
+             error.response && error.response.data.message
+             ? error.response.data.message
+             : error.message,
+        })
+    }
+} 
+
+export const getOrderDetails = (id) => async (dispatch, getState) => {        
+    try{
+        dispatch({
+            type: ORDER_DETAILS_REQUEST,
+        })
+
+        const { userLogin: { userInfo }} = getState(); //destructure from useState  -> userLogin -> userInfo which is in userLogin
+        // console.log(userInfo)
+        const config = {
+            headers:{
+                Authorization:`Bearer ${userInfo.token}`
+            },
+        }
+
+        const { data } = await axios.get(
+            `/api/orders/${id}`,   //passed in form line47
+            config)
+
+        dispatch ({
+            type:  ORDER_DETAILS_SUCCESS, 
+            payload: data,
+        })
+         
+      
+
+    } catch (error){
+        dispatch({
+            type: ORDER_DETAILS_FAIL,
+            payload: 
+             error.response && error.response.data.message
+             ? error.response.data.message
+             : error.message,
+        })
+    }
+} 
