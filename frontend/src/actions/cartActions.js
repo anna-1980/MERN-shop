@@ -32,8 +32,9 @@ export const removeFromCart = (id) => (dispatch, getState) => {
 
     localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
+
 //it is gonna take the Form data from the ShippingScreen
-export const saveShippingAddress = (data) => (dispatch) => {
+export const saveShippingAddress = (data) => (dispatch) => { //should take in Form data
     dispatch({
         type: CART_SAVE_SHIPPING_ADDRESS,
         payload: data,

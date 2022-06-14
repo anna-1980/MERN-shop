@@ -33,7 +33,8 @@ export const cartReducer = (state = { cartItems:[], shippingAddress: {},  paymen
           case CART_SAVE_SHIPPING_ADDRESS:
             return {
                 ...state, 
-                shippingAddress: action.payload,  // the data passed in from the form in ShippingScreen
+                shippingAddress: action.payload,  
+                // the data passed in from the form in ShippingScreen
             }
           case CART_SAVE_PAYMENT_METHOD:
             return {
