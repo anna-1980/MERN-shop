@@ -21,31 +21,48 @@ const OrderScreen = ( ) => {
  
     
     useEffect(() => {
-         dispatch(getOrderDetails(orderId))
-      
-    }, [   ]);
+        //a check to ensure it is the most recent order is being display
+        if(!order || order._id !== orderId){
+            dispatch(getOrderDetails(orderId))
+        }
+
+    }, [order, orderId]);
 
   return  loading ? <Loader /> 
   : error ? <Message variant='danger'>{error}</Message> 
   :  <>
-  <h1>Order  {order._id}</h1>
+   
   <Row>
-       <Col md={8} className="m-auto">
+       <Col md={8} className="m-auto mt-4">
            <ListGroup variant='flush'>
                <ListGroup.Item>
-                   <h2>Shipping Address: </h2>
-                    
-                    <p>
+                   <h5>Order number:&#160;{order._id} placed successfully</h5>
+                   <br />
+                   <h2>Shipping: </h2>
+                 
+                    <h5>Name:&#160;{order.user.name}</h5>
+                    <br />
+                    <h5>Email:<a href={`mailto: ${order.user.email}`}>&#160;{order.user.email}</a></h5>
+                    <br />
+                    <h5>Address:&#160;
+                        <br />
                        {order.shippingAddress.address},&#160;
                        {order.shippingAddress.city},&#160;
                        {order.shippingAddress.postalCode},&#160;
                        {order.shippingAddress.country} 
-                   </p>
+                       {order.isDelivered 
+                    ? <Message variant='success'>Delivered on&#160;{order.DeliveredAt} </Message>
+                    : <Message variant="danger">Not Delivered</Message>}
+                    </h5>
                </ListGroup.Item>
                <ListGroup.Item>
+                   <p>
                    <h2>Payment Method</h2>
-                   <strong>{order.paymentMethod} 
-                   </strong>
+                   <strong>{order.paymentMethod}</strong>
+                   </p>
+                   {order.isPaid 
+                    ? <Message variant='success'>Paid on&#160;{order.paidAt} </Message>
+                    : <Message variant="danger">Not Paid</Message>}
                </ListGroup.Item>
                <ListGroup.Item>
                    <h2>Order Items</h2>
@@ -93,25 +110,25 @@ const OrderScreen = ( ) => {
                     <ListGroup.Item>
                         <Row>
                             <Col>Items:</Col>
-                            <Col>{order.itemsPrice}</Col>
+                            <Col>$ {order.itemsPrice}</Col>
                         </Row>
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <Row>
                             <Col>Shipping:</Col>
-                            <Col>{order.shippingPrice}</Col>
+                            <Col>$ {order.shippingPrice}</Col>
                         </Row>
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <Row>
                             <Col>Tax:</Col>
-                            <Col>{order.taxPrice}</Col>
+                            <Col>$ {order.taxPrice}</Col>
                         </Row>
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <Row>
                             <Col>Total Price:</Col>
-                            <Col>{order.totalPrice}</Col>
+                            <Col>$ {order.totalPrice}</Col>
                         </Row>
                     </ListGroup.Item>
                    

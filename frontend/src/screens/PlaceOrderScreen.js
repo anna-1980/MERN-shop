@@ -12,6 +12,8 @@ const PlaceOrderScreen = () => {
     const dispatch = useDispatch();
     let navigate = useNavigate(); 
     const cart = useSelector(state => state.cart)
+    const userLogin = useSelector( state => state.userLogin);
+    const { userInfo } = userLogin;
     // console.log(cart.cartItems)
     const { shippingAddress }= cart; 
     const orderCreate = useSelector((state) => state.orderCreate);
@@ -20,7 +22,10 @@ const PlaceOrderScreen = () => {
     // make sure 2 decimal places are showign at all times
    const addDecimals = (num) => {
        return (Math.round(num *100)/ 100).toFixed(2)
-   }
+    }
+
+    console.log(userInfo)
+
     //calculate Prices:
     cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2));
     cart.shippingPrice = addDecimals(cart.itemsPrice > 50 ? 0 : 50) ;
@@ -36,7 +41,6 @@ const PlaceOrderScreen = () => {
       // eslint-disable-next-line
     }, [  success ]);
  
-  console.log(cart.itemsPrice)
     
     const placeOrderHandler = () => {
         dispatch(createOrder({
@@ -63,15 +67,19 @@ const PlaceOrderScreen = () => {
        <Col md={8} className="m-auto">
            <ListGroup variant='flush'>
                <ListGroup.Item>
-                   <h2>Shipping</h2>
-                   <p>
-                       <strong>Address:</strong> </p>
-                       <br />
-                       <p>{cart.shippingAddress.address}, 
-                       {cart.shippingAddress.city},
-                       {cart.shippingAddress.postalCode},
-                       {cart.shippingAddress.country}
-                       </p>
+               <h2>Shipping to: </h2>
+                   <br />
+                    <h5>Name:&#160;{userInfo.name}</h5>
+                    <br />
+                    <h5>Email:<a href={`mailto: `}>&#160;{userInfo.email}</a></h5>
+                    <br />
+                    <h5>Address:&#160;
+                        <br />
+                       {cart.shippingAddress.address},&#160;
+                       {cart.shippingAddress.city},&#160;
+                       {cart.shippingAddress.postalCode},&#160;
+                       {cart.shippingAddress.country} 
+                    </h5>
                </ListGroup.Item>
                <ListGroup.Item>
                    <h2>Payment Method</h2>
@@ -125,37 +133,37 @@ const PlaceOrderScreen = () => {
                     <ListGroup.Item>
                         <Row>
                             <Col>Items:</Col>
-                            <Col>{cart.itemsPrice}</Col>
+                            <Col>$ {cart.itemsPrice}</Col>
                         </Row>
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <Row>
                             <Col>Shipping:</Col>
-                            <Col>{cart.shippingPrice}</Col>
+                            <Col>$ {cart.shippingPrice}</Col>
                         </Row>
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <Row>
                             <Col>Tax:</Col>
-                            <Col>{cart.taxPrice}</Col>
+                            <Col>$ {cart.taxPrice}</Col>
                         </Row>
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <Row>
                             <Col>Total Price:</Col>
-                            <Col>{cart.totalPrice}</Col>
+                            <Col>$ {cart.totalPrice}</Col>
                         </Row>
                     </ListGroup.Item>
                         <ListGroup.Item>
                             {error && <Message variant='danger'>{error}</Message>}
                         </ListGroup.Item>
-                    <ListGroup.Item>
+                     
                             <Button 
                             type='button'
                             className='btn=block'
                             disabled={cart.cartItems === 0}
                             onClick={placeOrderHandler}>Place Order</Button>
-                    </ListGroup.Item>
+                     
                 </ListGroup>
             </Card>
         </Col>
