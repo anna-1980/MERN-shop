@@ -34,7 +34,7 @@ export const removeFromCart = (id) => (dispatch, getState) => {
 }
 
 //it is gonna take the Form data from the ShippingScreen
-export const saveShippingAddress = (data) => (dispatch) => { //should take in Form data
+export const saveShippingAddress = (data) => (dispatch, getState) => { //should take in Form data
     dispatch({
         type: CART_SAVE_SHIPPING_ADDRESS,
         payload: data,
@@ -43,7 +43,7 @@ export const saveShippingAddress = (data) => (dispatch) => { //should take in Fo
     localStorage.setItem('shippingAddress', JSON.stringify(data))
 }
 
-export const savePaymentMethod = (data) => (dispatch) => {
+export const savePaymentMethod = (data) => (dispatch, getState) => {
     dispatch({
         type: CART_SAVE_PAYMENT_METHOD,
         payload: data,
