@@ -8,7 +8,7 @@ import { addToCart, removeFromCart } from "../actions/cartActions.js";
 
 
 const CartScreen = () => {
-    console.log('connected to CartScreen')
+    // console.log('connected to CartScreen')
     let params = useParams();
     let navigate = useNavigate();
     let location = useLocation();
@@ -33,13 +33,13 @@ const CartScreen = () => {
       navigate(`/`);
     }
     useEffect(() => {
-      console.log("check content");
+      // console.log("check content");
       // console.log(location.search);
       // console.log(productId);
       // console.log(location.pathname);
       // console.log(location.search.split('='))
       // console.log( cartItems);
-      console.log(qty)
+       
 
       if(productId){
         dispatch(addToCart(productId, qty))  //you get it from the url

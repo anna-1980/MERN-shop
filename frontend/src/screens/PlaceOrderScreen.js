@@ -31,23 +31,23 @@ const PlaceOrderScreen = () => {
         if(success){
             navigate(`/order/${order._id}`);
             // console.log(`from placeOrderScreen, should be UserId ${order.user}`)
-            // console.log(`from placeOrderScreen, should be Address ${Object.values(order)}`)
+            console.log(`from placeOrderScreen, should be Address ${Object.values(order)}`)
         }
       // eslint-disable-next-line
     }, [  success ]);
  
-//   console.log(cart.shippingAddress)
+  console.log(cart.itemsPrice)
     
     const placeOrderHandler = () => {
         dispatch(createOrder({
             orderItems: cart.cartItems,
-            // shippingAddress: cart.shippingAddress,
-            shippingAddress: { 
-                address: 'cart.shippingAddress.address',
-                city:  'cart.shippingAddress.city',
-                postalCode: 'cart.shippingAddress.postalCode',
-                country: 'cart.shippingAddress.country',
-             },
+            shippingAddress: cart.shippingAddress,
+            // shippingAddress: { 
+            //     address: 'cart.shippingAddress.address',
+            //     city:  'cart.shippingAddress.city',
+            //     postalCode: 'cart.shippingAddress.postalCode',
+            //     country: 'cart.shippingAddress.country',
+            //  },
             paymentMethod: cart.paymentMethod.paymentMethod,
             itemsPrice: cart.itemsPrice,
             shippingPrice: cart.shippingPrice,
@@ -65,12 +65,13 @@ const PlaceOrderScreen = () => {
                <ListGroup.Item>
                    <h2>Shipping</h2>
                    <p>
-                       <strong>Address:</strong>
-                       {cart.shippingAddress.address}, 
+                       <strong>Address:</strong> </p>
+                       <br />
+                       <p>{cart.shippingAddress.address}, 
                        {cart.shippingAddress.city},
                        {cart.shippingAddress.postalCode},
                        {cart.shippingAddress.country}
-                   </p>
+                       </p>
                </ListGroup.Item>
                <ListGroup.Item>
                    <h2>Payment Method</h2>

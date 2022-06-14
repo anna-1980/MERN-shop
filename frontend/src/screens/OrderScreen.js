@@ -16,7 +16,8 @@ const OrderScreen = ( ) => {
     let navigate = useNavigate(); 
     const orderDetails = useSelector((state) => state.orderDetails);
     const { order, success, error, loading } = orderDetails;
-    console.log(`id missing PARAMS for ID ${params.id}`)
+    // console.log(`id missing PARAMS for ID ${params.id}`)
+    console.log(`OrderScreen -  ${order}`)
  
     
     useEffect(() => {
@@ -32,19 +33,18 @@ const OrderScreen = ( ) => {
        <Col md={8} className="m-auto">
            <ListGroup variant='flush'>
                <ListGroup.Item>
-                   <h2>Shipping</h2>
-                   <p>
-                       <strong>Address:</strong>
-                       {order.shippingAddress.address}, 
-                       {order.shippingAddress.city},
-                       {order.shippingAddress.postalCode},
-                       {order.shippingAddress.country}
+                   <h2>Shipping Address: </h2>
+                    
+                    <p>
+                       {order.shippingAddress.address},&#160;
+                       {order.shippingAddress.city},&#160;
+                       {order.shippingAddress.postalCode},&#160;
+                       {order.shippingAddress.country} 
                    </p>
                </ListGroup.Item>
                <ListGroup.Item>
                    <h2>Payment Method</h2>
-                   <strong>Method: 
-                       {order.paymentMethod.paymentMethod}
+                   <strong>{order.paymentMethod} 
                    </strong>
                </ListGroup.Item>
                <ListGroup.Item>

@@ -29,14 +29,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
         dispatch ({
             type:  ORDER_CREATE_SUCCESS, 
             payload: data,
-            ///!!!! orderItems are there but I cannot get a grip on address details???
-        //     payload: {
-        //         _id: data._id,
-        //         address: data.itemsPrice,
-        //         city:  data.shippingAddress.city,
-        //         postalCode: data.shippingAddress.postalCode,
-        //         country: data.shippingAddress.country,
-        // },
+       
         })
          
       

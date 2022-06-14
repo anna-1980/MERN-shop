@@ -20,7 +20,7 @@ const ShippingScreen = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log('submit')
+        // console.log('submit')
         //action SAVE_SHIPPING_ADDRESS to be dispatched here 
         dispatch(saveShippingAddress({
             address, 
