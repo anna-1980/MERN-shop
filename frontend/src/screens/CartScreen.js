@@ -124,15 +124,15 @@ const CartScreen = () => {
 
       </Row>
       <Row>
-        <ListGroup.Item>
+         
           <Button 
             type="button" 
-            className="'btn-block"
-            variant="flush"
+            className="'btn-block ml-auto"
+            variant="success"
             onClick={continueShoppingHandler} >
               Continue Shopping
             </Button>
-        </ListGroup.Item>
+         
       </Row>
  
     </>

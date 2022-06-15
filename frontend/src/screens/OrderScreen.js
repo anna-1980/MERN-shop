@@ -1,7 +1,8 @@
 import { useEffect, useState} from 'react';
 import axios from 'axios';
 import { PayPalButton } from 'react-paypal-button-v2';
-import {  Row, Col, ListGroup, Image, Card} from 'react-bootstrap';
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { Button, Row, Col, ListGroup, Image, Card} from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import   {useDispatch, useSelector}  from 'react-redux';
 import Message from '../components/Message.js';
@@ -14,10 +15,10 @@ import { ORDER_PAY_RESET } from '../constants/orderConstants.js'
 const OrderScreen = ( ) => {
     let params = useParams();
     const orderId = params.id;
+    let navigate = useNavigate(); 
+    const dispatch = useDispatch();
     // console.log(orderId);
     const [sdkReady, setSdkReady] = useState(false);
-    const dispatch = useDispatch();
-    let navigate = useNavigate(); 
     const orderDetails = useSelector((state) => state.orderDetails);
     const { order, success, error, loading } = orderDetails;
     const orderPay = useSelector((state) => state.orderPay);
@@ -38,7 +39,8 @@ const OrderScreen = ( ) => {
             script.onload = () => {
                 setSdkReady(true)
             }
-            document.body.appendChild(script)
+            document.body.appendChild(script);
+            script.render('#paypal-button-container')
         }
 
         addPayPalScript()
@@ -47,7 +49,7 @@ const OrderScreen = ( ) => {
             dispatch({ type: ORDER_PAY_RESET}) 
             dispatch(getOrderDetails(orderId))
         } else if(!order.isPaid){
-            if(!window.paypal){   //if the order isn't paid it will ass PayPal script
+            if(!window.paypal){   //if the order isn't paid it will add PayPal script
                 addPayPalScript()
             }else{
                 setSdkReady(true)
@@ -58,7 +60,8 @@ const OrderScreen = ( ) => {
             dispatch(getOrderDetails(orderId))
         }
 
-    }, [ orderId, success, order,]);
+     
+}, [ dispatch, orderId, success, successPay, order, sdkReady ]);
 
     const successPaymentHandler = (paymentResult) => {
         console.log(paymentResult);
@@ -171,15 +174,26 @@ const OrderScreen = ( ) => {
                     {!order.isPaid && (
                         <ListGroup.Item>
                             {loadingPay && <Loader />}
-                            {!sdkReady ? <Loader />
-                            : (
+                            <PayPalScriptProvider options={{ "client-id": "test" }}> 
                                 <PayPalButton
                                 amount={order.totalPrice}
                                 onSuccess={successPaymentHandler}
                                 ></PayPalButton>
-                            )
-                            }
+                             </PayPalScriptProvider>
                         </ListGroup.Item>
+                         
+                //------the one below has more glitch problem some POST req. error so it doesn't always load
+                        //     <ListGroup.Item>
+                        //     {loadingPay && <Loader />}
+                        //     {!sdkReady ? <Loader />
+                        //     : (
+                        //         <PayPalButton
+                        //         amount={order.totalPrice}
+                        //         onSuccess={successPaymentHandler}
+                        //         ></PayPalButton>
+                        //     )
+                        //     }
+                        // </ListGroup.Item>
                     )}
                     {/* <ListGroup.Item>
                             <Button 
@@ -188,9 +202,21 @@ const OrderScreen = ( ) => {
                             disabled={cart.cartItems === 0}
                             onClick={placeOrderHandler}>Place Order</Button>
                     </ListGroup.Item> */}
+                    <div id="paypal-button-container">PayPalDiv
+                    <PayPalScriptProvider options={{ "client-id": "test" }}> 
+                                <PayPalButtons amount={order.totalPrice} style={{ layout: "horizontal" }} />
+                        </PayPalScriptProvider></div>
+                    
                 </ListGroup>
             </Card>
         </Col>
+           {order.isPaid && (
+             <Button 
+             className='m-auto'
+             type='submit' 
+             variant='info'>
+                 Check previous orders</Button>
+           )}
    </Row>
   </>
 }
@@ -198,5 +224,6 @@ const OrderScreen = ( ) => {
 export default OrderScreen
 
 // Comments/resources
+//https://www.npmjs.com/package/@paypal/react-paypal-js
 // https://www.npmjs.com/package/react-paypal-button-v2
 //https://developer.paypal.com/sdk/js/configuration/
