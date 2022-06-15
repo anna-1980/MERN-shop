@@ -26,7 +26,9 @@ const OrderScreen = ( ) => {
     const { success: successPay,  loading: loadingPay } = orderPay;
     // console.log(`id missing PARAMS for ID ${params.id}`)
     // console.log(`OrderScreen -  ${order}`)
- 
+    const  redirectToProfileHandler = ()=>{
+        navigate(`/profile`)
+    }
     
     useEffect(() => {
         const addPayPalScript = async () => {
@@ -102,7 +104,7 @@ const OrderScreen = ( ) => {
                    <strong>{order.paymentMethod}</strong>
                    </p>
                    {order.isPaid 
-                    ? <Message variant='success'>Paid on&#160;{order.paidAt} </Message>
+                    ? <Message variant='success'>Paid on&#160;{order.paidAt.substring(0, 10)} </Message>
                     : <Message variant="danger">Not Paid</Message>}
                </ListGroup.Item>
                <ListGroup.Item>
@@ -213,7 +215,8 @@ const OrderScreen = ( ) => {
         </Col>
            {order.isPaid && (
              <Button 
-             className='m-auto'
+             onClick={redirectToProfileHandler}
+             className='m-auto '
              type='submit' 
              variant='info'>
                  Check previous orders</Button>
