@@ -22,7 +22,7 @@ const OrderScreen = ( ) => {
     const orderDetails = useSelector((state) => state.orderDetails);
     const { order, success, error, loading } = orderDetails;
     const orderPay = useSelector((state) => state.orderPay);
-    //rename the existing var 
+//-------rename the existing var 
     const { success: successPay,  loading: loadingPay } = orderPay;
     // console.log(`id missing PARAMS for ID ${params.id}`)
     // console.log(`OrderScreen -  ${order}`)
@@ -42,8 +42,9 @@ const OrderScreen = ( ) => {
             document.body.appendChild(script);
             script.render('#paypal-button-container')
         }
-
-        addPayPalScript()
+//------If removed all paypal buttons are there withouth glitch already from PLACE ORDER click ---
+        // addPayPalScript()
+        
         if(!order || successPay ){
             // if not done after paying it will keep refreshing!
             dispatch({ type: ORDER_PAY_RESET}) 
