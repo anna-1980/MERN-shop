@@ -25,7 +25,7 @@ const getProductById = asyncHandler(async (req, res) => {
       throw new Error('Product not found')
     }
   
-    console.log(req.params.id);
+    // console.log(req.params.id);
 })
 
 export {
