@@ -152,13 +152,16 @@ const ProfileScreen = () => {
                       <td>{order.createdAt.substring(0, 10)}</td>
                       <td>{order.totalPrice}</td>
                       <td>{order.isPaid ? order.paidAt.substring(0, 10) : (
-                        
-                        <i className="fas fa-times" style={{color: 'red' }}></i>
+                        <Row className='m-auto mt-2'>
+                          <i className="fas fa-times " style={{color: 'red' }}></i>
+                        </Row>
                       )}</td>
                       <td>{order.isDelivered ? (
                         order.deliveredAt.substring(0, 10)
                       ): (
-                        <i className="fas fa-times" style={{color: 'magenta' }}></i>
+                        <Row className='m-auto mt-2 '>
+                         <i className="fas fa-times" style={{color: 'magenta' }}></i>
+                        </Row>
                       )
                     }</td>
                       <td>
