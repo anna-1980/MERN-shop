@@ -1,5 +1,5 @@
 import { useEffect} from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, Table} from 'react-bootstrap';
 import { LinkContainer} from 'react-router-bootstrap'
 import   {useDispatch, useSelector}  from 'react-redux';
@@ -9,20 +9,25 @@ import { listUsers } from '../actions/userActions.js'
  
 
 const UserListScreen = () => {
+    let navigate = useNavigate();
   const dispatch = useDispatch();
   const userList = useSelector(state => state.userList);
   const {loading, error, users} = userList;  
-  
-  console.log(userList)
-  console.log(users)
 
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo} = userLogin
+  
   const deleteHandler = (_id) => {
     console.log('delete')
   }
 
   useEffect(() => {
+    if(userInfo && userInfo.isAdmin){
      dispatch(listUsers())
-  }, [dispatch])
+    }else{
+      navigate('/login');
+    }
+  }, [dispatch, navigate])
 
   return (
     <div>
@@ -46,7 +51,7 @@ const UserListScreen = () => {
                     <tr key={user.id}>
                         <td>{user.id}</td>
                         <td>{user.name}</td>
-                        <td><a href={`mailto: ${user.email}`}>{user._email}</a></td>
+                        <td><a href={`mailto: ${user.email}`}>{user.email}</a></td>
                         <td>
                             {user.isAdmin ?( <i className='fas fa-check' style={{color: 'green'}}></i>)
                             :(
