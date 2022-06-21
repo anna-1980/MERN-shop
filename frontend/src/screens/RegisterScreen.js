@@ -24,7 +24,7 @@ const RegisterScreen = () => {
 
   const redirect = location.search ? location.search.split('=')[1] : '/'
   
-  console.log(`from RegisterScreen ${location.search}`)
+  // console.log(`from RegisterScreen ${location.search}`)
 
   useEffect(() => {
      if(userInfo){
