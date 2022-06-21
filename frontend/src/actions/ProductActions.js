@@ -5,6 +5,9 @@ import {
     PRODUCT_DETAILS_REQUEST,
     PRODUCT_DETAILS_SUCCESS,
     PRODUCT_DETAILS_FAIL,
+    PRODUCT_DELETE_REQUEST,
+    PRODUCT_DELETE_SUCCESS,
+    PRODUCT_DELETE_FAIL,
    } from '../constants/productConstants.js';
 import axios from 'axios';
 
@@ -56,5 +59,36 @@ import axios from 'axios';
          }
     
      };
-
    // what this action is gonna do is what we did in useEffect, we fetched from /API/products and we mapped throgght them
+
+   export const deleteProduct = (id) => async (dispatch, getState) => {        
+    try{
+        dispatch({
+            type: PRODUCT_DELETE_REQUEST,
+        })
+//-------destructure from useState  -> userLogin -> userInfo which is in userLogin-------//
+        const { userLogin: { userInfo }} = getState(); 
+        const config = {
+//------- pass in the authorization -------//
+            headers:{
+                Authorization:`Bearer ${userInfo.token}`
+            },
+        }
+        await axios.delete(
+            `/api/products/${id}`, config) //the id comes from the deleteProduct function parameter
+
+//-------paasing in the data which are the particulat user's orders-------/
+        dispatch ({
+            type:  PRODUCT_DELETE_SUCCESS, 
+        })
+
+    } catch (error){
+        dispatch({
+            type: PRODUCT_DELETE_FAIL,
+            payload: 
+             error.response && error.response.data.message
+             ? error.response.data.message
+             : error.message,
+        })
+    }
+} 

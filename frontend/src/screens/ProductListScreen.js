@@ -5,22 +5,27 @@ import { LinkContainer} from 'react-router-bootstrap'
 import   {useDispatch, useSelector}  from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message.js';
-import { listProducts } from '../actions/ProductActions.js';
+import { listProducts, deleteProduct } from '../actions/ProductActions.js';
 
 const ProductListScreen = () => {
     let navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(`productList `)
+
+//------- bringing in state from reduc (from store.js with useSelector-------//
+
   const productList = useSelector( state => state.productList )  //grabb the piece of state the way you called it in the STORE: const reducer = combineReducers({ productList: productListReducer,
   const { loading, error, products} = productList //destructures parts of that state that could be sent down, you jut pull it from the state here 
-console.log(productList)
+ 
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo} = userLogin;
+
+  const productDelete = useSelector( state => state.productDelete )   
+  const { loading: loadingDelete, error: errorDelete, success: successDelete} = productDelete
 
 //-------handlers-------//
   const deleteHandler = (id) => {
     if(window.confirm('Are you sure ? This action cannot be undone!')){
-    //add delete products functionality here    
+      dispatch(deleteProduct(id))  
     }
   }
 
@@ -34,7 +39,7 @@ const createProductHandler = (product) => {
     }else{
       navigate('/login');
     }
-  }, [dispatch, navigate, userInfo])
+  }, [dispatch, navigate, userInfo, successDelete])
 
   return (
     <div>
@@ -48,6 +53,8 @@ const createProductHandler = (product) => {
                 </Button>
             </Col>
         </Row>
+        {loadingDelete && <Loader />}
+        {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
         { loading? <Loader /> 
         : error ? <Message variant='danger'>{error}</Message>
     : (
