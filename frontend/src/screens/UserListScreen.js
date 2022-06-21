@@ -5,20 +5,28 @@ import { LinkContainer} from 'react-router-bootstrap'
 import   {useDispatch, useSelector}  from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message.js';
-import { listUsers } from '../actions/userActions.js'
+import { listUsers, deleteUser } from '../actions/userActions.js';
+
  
 
 const UserListScreen = () => {
     let navigate = useNavigate();
   const dispatch = useDispatch();
+
   const userList = useSelector(state => state.userList);
   const {loading, error, users} = userList;  
 
   const userLogin = useSelector(state => state.userLogin);
-  const { userInfo} = userLogin
+  const { userInfo} = userLogin;
+
+  const userDelete = useSelector(state => state.userDelete);
+  const {success:successDelete} = userDelete;
   
-  const deleteHandler = (_id) => {
-    console.log('delete')
+  const deleteHandler = (id) => {
+    // console.log('delete')
+    if(window.confirm('Are you sure ? This action cannot be undone!')){
+        dispatch(deleteUser(id));
+    }
   }
 
   useEffect(() => {
@@ -27,7 +35,7 @@ const UserListScreen = () => {
     }else{
       navigate('/login');
     }
-  }, [dispatch, navigate])
+  }, [dispatch, navigate, successDelete])
 
   return (
     <div>
