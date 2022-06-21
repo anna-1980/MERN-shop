@@ -37,7 +37,7 @@ const App = () => {
             <Route path='/product/:id' element= {<ProductScreen />} />
             <Route path='/cart/*' element= {<CartScreen />} />
             <Route path='/admin/userlist' element={<UserListScreen /> }/>
-            <Route path='/admin/userlist/:id/edit' element={<UserEditScreen /> }/>
+            <Route path='/admin/user/:id/edit' element={<UserEditScreen /> }/>
           </Routes>
         </Container>
       </main>
