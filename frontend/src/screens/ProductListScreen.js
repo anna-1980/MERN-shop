@@ -5,7 +5,8 @@ import { LinkContainer} from 'react-router-bootstrap'
 import   {useDispatch, useSelector}  from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message.js';
-import { listProducts, deleteProduct } from '../actions/ProductActions.js';
+import { listProducts, deleteProduct, createNewProduct } from '../actions/ProductActions.js';
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants.js';
 
 const ProductListScreen = () => {
     let navigate = useNavigate();
@@ -22,6 +23,9 @@ const ProductListScreen = () => {
   const productDelete = useSelector( state => state.productDelete )   
   const { loading: loadingDelete, error: errorDelete, success: successDelete} = productDelete
 
+  const productCreateNew = useSelector( state => state.productCreateNew )   
+  const { loading: loadingNewProduct, error: errorNewProduct, success: successNewProduct, product: createdNewProduct} = productCreateNew
+
 //-------handlers-------//
   const deleteHandler = (id) => {
     if(window.confirm('Are you sure ? This action cannot be undone!')){
@@ -29,17 +33,24 @@ const ProductListScreen = () => {
     }
   }
 
-const createProductHandler = (product) => {
-    console.log('created new product')
-}
+  const createProductHandler = (product) => {
+    dispatch(createNewProduct());
+    console.log(productCreateNew)
+  }
+  // console.log(productCreateNew.product._id)
 
   useEffect(() => {
-    if(userInfo && userInfo.isAdmin){
-     dispatch(listProducts())
-    }else{
+    dispatch({type: PRODUCT_CREATE_RESET})
+
+    if(!userInfo.isAdmin){
       navigate('/login');
     }
-  }, [dispatch, navigate, userInfo, successDelete])
+    if(successNewProduct){
+      navigate(`/admin/product/${productCreateNew.product._id}/edit`);
+    }else{
+      dispatch(listProducts())
+    }
+  }, [dispatch, navigate, userInfo, successDelete, successNewProduct, createdNewProduct])
 
   return (
     <div>
@@ -47,14 +58,16 @@ const createProductHandler = (product) => {
             <Col >
             <h1>Products</h1>
             </Col>
-            <Col className='text-right' >
+            {/* <Col className='text-right' > */}
                 <Button  className='my-3'  variant='success' onClick={createProductHandler}>
                    <i className='fas fa-plus'>	&nbsp;	&nbsp;Add new Product</i>
                 </Button>
-            </Col>
+            {/* </Col> */}
         </Row>
         {loadingDelete && <Loader />}
         {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+        {loadingNewProduct && <Loader />}
+        {errorNewProduct && <Message variant='danger'>{errorNewProduct}</Message>}
         { loading? <Loader /> 
         : error ? <Message variant='danger'>{error}</Message>
     : (

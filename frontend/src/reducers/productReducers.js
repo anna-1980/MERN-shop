@@ -8,6 +8,10 @@ import { PRODUCT_LIST_REQUEST,
          PRODUCT_DELETE_REQUEST,
          PRODUCT_DELETE_SUCCESS,
          PRODUCT_DELETE_FAIL,
+         PRODUCT_CREATE_REQUEST,
+         PRODUCT_CREATE_SUCCESS,
+         PRODUCT_CREATE_FAIL,
+         PRODUCT_CREATE_RESET,
         } from '../constants/productConstants.js'
 
 export const productListReducer = (state = { products: []}, action) => {
@@ -41,9 +45,7 @@ export const productDetailsReducer = (
     }
 
 } 
-export const productDeleteReducer = (
-    state = {}, 
-    action) => {
+export const productDeleteReducer = (state = {}, action) => {
 
     switch(action.type) {
         case PRODUCT_DELETE_REQUEST:
@@ -54,9 +56,22 @@ export const productDeleteReducer = (
             return { loading: false, error: action.payload}
         default:
         return state  //the initial state state = { products: []}
-    }
+    }} 
 
-} 
+export const createNewProductReducer = (state = {}, action) => {
+
+    switch(action.type) {
+        case PRODUCT_CREATE_REQUEST:
+            return { loading: true  }
+        case PRODUCT_CREATE_SUCCESS:
+            return{ loading: false, success: true, product: action.payload} //make sure it is SINGULAR one PRODUCT
+        case PRODUCT_CREATE_FAIL:
+            return { loading: false, error: action.payload}
+        case PRODUCT_CREATE_RESET:
+            return { }
+        default:
+        return state  //the initial state state = { products: []}
+    }} 
 // reducer takes 2 things, the initial STATE and an ACTION
 //when you create an ACTION reducer you gonna dispatch action to this reducer
 //ACTION might also have a payload with the data we fetched formt eh server
