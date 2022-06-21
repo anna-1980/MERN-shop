@@ -8,6 +8,9 @@ import {
     PRODUCT_DELETE_REQUEST,
     PRODUCT_DELETE_SUCCESS,
     PRODUCT_DELETE_FAIL,
+    PRODUCT_CREATE_REQUEST,
+    PRODUCT_CREATE_SUCCESS,
+    PRODUCT_CREATE_FAIL,
    } from '../constants/productConstants.js';
 import axios from 'axios';
 
@@ -92,3 +95,34 @@ import axios from 'axios';
         })
     }
 } 
+
+    export const createNewProduct = () => async (dispatch, getState) => {        
+        try{
+            dispatch({
+                type: PRODUCT_CREATE_REQUEST,
+            })
+    //-------destructure from useState  -> userLogin -> userInfo which is in userLogin-------//
+            const { userLogin: { userInfo }} = getState(); 
+            const config = {
+    //------- pass in the authorization -------//
+                headers:{
+                    Authorization:`Bearer ${userInfo.token}`
+                }}
+    const {data} = await axios.post(`/api/products/`, {}, config)  // second argument is empty object because we make post req. but not sending any data
+
+    //-------paasing in the data which are the particulat user's orders-------/
+            dispatch ({
+                type:  PRODUCT_CREATE_SUCCESS, 
+                payload: data   //the newly creatred product
+            })
+
+        } catch (error){
+            dispatch({
+                type: PRODUCT_CREATE_FAIL,
+                payload: 
+                error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message,
+            })
+        }
+    } 
