@@ -54,7 +54,7 @@ const addNewProduct = asyncHandler(async (req, res) => {
     user: req.user._id,
     image:'/images/sample.jpeg',
     brand: 'product brand',
-    category: 'prduct category',
+    category: 'product category',
     countInStock: 0,
     numReviews: 0, 
     description: 'product description'

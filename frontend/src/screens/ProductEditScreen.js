@@ -4,9 +4,9 @@ import { Form, Button} from 'react-bootstrap';
 import   {useDispatch, useSelector}  from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message.js';
-import { listProductDetails } from '../actions/ProductActions.js'
+import { listProductDetails, updateProduct } from '../actions/ProductActions.js'
 import FormContainer from '../components/FormContainer.js';
-import { USER_UPDATE_RESET } from '../constants/userConstants';
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 
 const ProductEditScreen = () => {
     const dispatch = useDispatch();
@@ -24,9 +24,15 @@ const ProductEditScreen = () => {
     
     const productDetails = useSelector(state => state.productDetails);
     const {loading, error, product} = productDetails;
+
+    const productUpdate = useSelector(state => state.productUpdate);
+    const {loading: loadingUpdate, error: errorUpdate, success: successUpdate} = productUpdate;
     
     useEffect(() => {
-      
+        if(successUpdate){
+            dispatch({type: PRODUCT_UPDATE_RESET})
+            navigate('/admin/productlist')
+        }else{
             if(!product.name || product._id !== productId){
                 dispatch(listProductDetails(productId))
             }else{
@@ -38,11 +44,23 @@ const ProductEditScreen = () => {
                 setCountInStock(product.countInStock)
                 setDescription(product.description)
             }  
-    }, [dispatch, productId, product, navigate])
+        }
+           
+    }, [dispatch, productId, product, navigate, successUpdate])
     
     const submitHandler = (e) => {
       e.preventDefault()
-       console.log('update product')
+    //    console.log('update product')
+        dispatch(updateProduct(
+            {_id: productId,
+            name,
+            price,
+            image,
+            brand,
+            category, 
+            countInStock,
+            description} 
+        ))
     }
   
       return (
@@ -52,8 +70,8 @@ const ProductEditScreen = () => {
         </Link>
         <FormContainer>
         <h1>Edit Product</h1>
-        {/* {loadingUpdate && <Loader />}
-        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message> } */}
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message> }
         {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message>
         : (
 <Form onSubmit = {submitHandler}>
@@ -98,10 +116,10 @@ const ProductEditScreen = () => {
           </Form.Group>
 
           <Form.Group controlId= 'category'>
-            <Form.Label>Image</Form.Label>
+            <Form.Label>Category</Form.Label>
             <Form.Control 
               type='text' 
-              placeholder='Enter category' 
+              placeholder='product category' 
               value={category} 
               onChange={(e) => setCategory(e.target.value)}>
             </Form.Control>
