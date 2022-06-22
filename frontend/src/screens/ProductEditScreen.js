@@ -87,6 +87,7 @@ const ProductEditScreen = () => {
         setUploading(false);
         }catch(error){
             console.log(error);
+            alert('Only files with extension JPEG, JPG, PNG ')
             setUploading(false);
         }
     }
@@ -132,11 +133,11 @@ const ProductEditScreen = () => {
               value={image} 
               onChange={(e) => setImage(e.target.value)}>
             </Form.Control>
-          
+             
             <Form.Control 
             type='file'
             id='image-file'
-            label='Choose file'
+            label='Browse'
             custom
             onChange={uploadFileHandler}
             ></Form.Control>

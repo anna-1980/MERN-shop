@@ -1,6 +1,6 @@
 import { useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Table, Row, Col} from 'react-bootstrap';
+import { Button, Table, Row, Col, Image} from 'react-bootstrap';
 import { LinkContainer} from 'react-router-bootstrap'
 import   {useDispatch, useSelector}  from 'react-redux';
 import Loader from '../components/Loader';
@@ -74,6 +74,7 @@ const ProductListScreen = () => {
         <Table striped bordered hover responsive className='table-sm'>
             <thead>
                 <tr>
+                    <th>IMAGE</th>
                     <th>ID</th>
                     <th>NAME</th>
                     <th>PRICE</th>
@@ -84,6 +85,13 @@ const ProductListScreen = () => {
             <tbody>
                 {products.map((product) => (
                     <tr key={product._id}>
+                        <td>
+                        <Row>
+                          <Col lg={8} >
+                           <Image src={product.image} alt={product.name} fluid rounded></Image> 
+                          </Col>
+                        </Row>
+                        </td>
                         <td>{product._id}</td>
                         <td>{product.name}</td>
                         <td>{product.price}</td>

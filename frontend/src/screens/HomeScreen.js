@@ -24,11 +24,6 @@ const HomeScreen = () => {
 
     dispatch(listProducts()) //fire the action to get the products, through the REDUCER down to STATE
   
-    // const fetchProducts = async () => {
-    //   const {data} = await axios.get('/api/products')
-    //   setProducts(data)
-    // }
-    // fetchProducts()
   }, [dispatch])
 
   const currentUser = true ||  userInfo.name;
