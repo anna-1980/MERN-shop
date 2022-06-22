@@ -1,4 +1,4 @@
-import path from 'path'; //from Node.js (it had method on it called extname - it gets the extension of the file name)
+import path from "path"; //from Node.js (it had method on it called extname - it gets the extension of the file name)
 import express from "express";
 import multer from 'multer';
 
@@ -13,11 +13,10 @@ const storage = multer.diskStorage(
         destination(req, file, cb) {
             cb(null, 'uploads/')
         },
-    },
-    {
         filename(req, file, cb){
 //------- we have access to file.fieldname so we can create file name with implementing functionality to avoid uploading files with same name-------//
-            cb(null, `${file.filename}-${Date.now()}${path.extname(file.originalname)}`)
+            cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`)
+            // cb(null, file.originalname)
             //---resulting file name should be: fieldname-date.extension
         }
     }
