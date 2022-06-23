@@ -94,7 +94,7 @@ const OrderScreen = ( ) => {
                        {order.shippingAddress.postalCode},&#160;
                        {order.shippingAddress.country} 
                        {order.isDelivered 
-                    ? <Message variant='success'>Delivered on&#160;{order.DeliveredAt} </Message>
+                    ? <Message variant='success'>Delivered on&#160;{order.deliveredAt.substring(0, 10)} </Message>
                     : <Message variant="danger">Not Delivered</Message>}
                     </h5>
                </ListGroup.Item>
