@@ -5,6 +5,7 @@ import { LinkContainer} from 'react-router-bootstrap'
 import   {useDispatch, useSelector}  from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message.js';
+import Rating from '../components/Rating';
 import { listProducts, deleteProduct, createNewProduct } from '../actions/ProductActions.js';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants.js';
 
@@ -15,7 +16,7 @@ const ProductListScreen = () => {
 //------- bringing in state from reduc (from store.js with useSelector-------//
 
   const productList = useSelector( state => state.productList )  //grabb the piece of state the way you called it in the STORE: const reducer = combineReducers({ productList: productListReducer,
-  const { loading, error, products} = productList //destructures parts of that state that could be sent down, you jut pull it from the state here 
+  const { loading, error, products} = productList //destructures parts of that state that could be sent down, you just pull it from the state here 
  
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo} = userLogin;
@@ -80,6 +81,7 @@ const ProductListScreen = () => {
                     <th>PRICE</th>
                     <th>CATEGORY</th>
                     <th>BRAND</th>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -92,7 +94,13 @@ const ProductListScreen = () => {
                           </Col>
                         </Row>
                         </td>
-                        <td>{product._id}</td>
+                        <td>
+                          {product._id}
+                        <Rating 
+                          value={product.rating}
+                          />
+                           <p>from {product.numReviews} reviews</p>
+                        </td>
                         <td>{product.name}</td>
                         <td>{product.price}</td>
                         <td>{product.category}</td>
@@ -108,11 +116,13 @@ const ProductListScreen = () => {
                             <i className='fas fa-trash'></i>
                             </Button>
                         </td>
+                        
                     </tr>
                 ))}
             </tbody>
         </Table>
     )}
+    
     </div>
   )
 }
