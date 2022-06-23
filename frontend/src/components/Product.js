@@ -11,7 +11,7 @@ const Product = ({product}) => {
 
   const userLogin = useSelector( state => state.userLogin);
   const { userInfo } = userLogin;
-  console.log(userLogin)
+  // console.log(userLogin)
   return (
     <Card className='my-3 p-3 rounded'>
         <Link to={`/product/${product._id}`}>
