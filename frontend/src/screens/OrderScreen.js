@@ -38,6 +38,11 @@ const OrderScreen = ( ) => {
     }
     
     useEffect(() => {
+
+    if(!userInfo){
+        navigate('/login')
+    }
+
         const addPayPalScript = async () => {
             const { data: clientId} = await axios.get('/api/config/paypal')
             // console.log( clientId )
@@ -198,7 +203,7 @@ const OrderScreen = ( ) => {
                     )}
                     {loadingDelivered && <Loader />}
                    {
-                    userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                    userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
                         <ListGroup.Item className='row justify-content-md-center'>
                             <Button
                             variant="outline-danger"
