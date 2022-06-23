@@ -8,8 +8,8 @@ import   {useDispatch, useSelector}  from 'react-redux';
 import Message from '../components/Message.js';
 import Loader from '../components/Loader';
 // import { saveShippingAddress } from '../actions/cartActions.js';
-import { getOrderDetails, payOrder } from '../actions/orderActions.js';
-import { ORDER_PAY_RESET } from '../constants/orderConstants.js'
+import { getOrderDetails, payOrder, deliveredOrder } from '../actions/orderActions.js';
+import { ORDER_PAY_RESET, ORDER_DELIVERY_RESET } from '../constants/orderConstants.js'
 
 
 const OrderScreen = ( ) => {
@@ -19,18 +19,30 @@ const OrderScreen = ( ) => {
     const dispatch = useDispatch();
     // console.log(orderId);
     const [sdkReady, setSdkReady] = useState(false);
+
+//------- getting data form Redux STATE: store.js combineReducers -------//
+    const userLogin = useSelector((state) => state.userLogin);
+    const {userInfo} = userLogin;
+
     const orderDetails = useSelector((state) => state.orderDetails);
     const { order, success, error, loading } = orderDetails;
+
     const orderPay = useSelector((state) => state.orderPay);
-//-------rename the existing var 
     const { success: successPay,  loading: loadingPay } = orderPay;
-    // console.log(`id missing PARAMS for ID ${params.id}`)
-    // console.log(`OrderScreen -  ${order}`)
+
+    const orderDelivered = useSelector((state) => state.orderDelivered);
+    const { success: successDelivered,  loading: loadingDelivered, order: orderDelivery } = orderDelivered;
+
     const  redirectToProfileHandler = ()=>{
         navigate(`/profile`)
     }
     
     useEffect(() => {
+
+    if(!userInfo){
+        navigate('/login')
+    }
+
         const addPayPalScript = async () => {
             const { data: clientId} = await axios.get('/api/config/paypal')
             // console.log( clientId )
@@ -47,9 +59,10 @@ const OrderScreen = ( ) => {
 //------If removed all paypal buttons are there withouth glitch already from PLACE ORDER click ---
         // addPayPalScript()
         
-        if(!order || successPay ){
+        if(!order || successPay || successDelivered ){
             // if not done after paying it will keep refreshing!
             dispatch({ type: ORDER_PAY_RESET}) 
+            dispatch({ type: ORDER_DELIVERY_RESET}) 
             dispatch(getOrderDetails(orderId))
         } else if(!order.isPaid){
             if(!window.paypal){   //if the order isn't paid it will add PayPal script
@@ -61,15 +74,18 @@ const OrderScreen = ( ) => {
         //a check to ensure it is the most recent order is being display
         if(!order || order._id !== orderId){
             dispatch(getOrderDetails(orderId))
-        }
+        }    
+}, [ dispatch, orderId, success, successPay, successDelivered, order, sdkReady ]);
 
-     
-}, [ dispatch, orderId, success, successPay, order, sdkReady ]);
-
+//-------Handlers-------//
     const successPaymentHandler = (paymentResult) => {
         console.log(paymentResult);
         dispatch(payOrder(orderId, paymentResult))
     }
+    
+   const deliverHandler = () => {
+    dispatch(deliveredOrder(order))
+   } 
 
   return  loading ? <Loader /> 
   : error ? <Message variant='danger'>{error}</Message> 
@@ -94,7 +110,7 @@ const OrderScreen = ( ) => {
                        {order.shippingAddress.postalCode},&#160;
                        {order.shippingAddress.country} 
                        {order.isDelivered 
-                    ? <Message variant='success'>Delivered on&#160;{order.DeliveredAt} </Message>
+                    ? <Message variant='success'>Delivered on&#160;{order.deliveredAt.substring(0, 10)} </Message>
                     : <Message variant="danger">Not Delivered</Message>}
                     </h5>
                </ListGroup.Item>
@@ -184,32 +200,21 @@ const OrderScreen = ( ) => {
                                 ></PayPalButton>
                              </PayPalScriptProvider>
                         </ListGroup.Item>
-                         
-                //------the one below has more glitch problem some POST req. error so it doesn't always load
-                        //     <ListGroup.Item>
-                        //     {loadingPay && <Loader />}
-                        //     {!sdkReady ? <Loader />
-                        //     : (
-                        //         <PayPalButton
-                        //         amount={order.totalPrice}
-                        //         onSuccess={successPaymentHandler}
-                        //         ></PayPalButton>
-                        //     )
-                        //     }
-                        // </ListGroup.Item>
                     )}
-                    {/* <ListGroup.Item>
-                            <Button 
+                    {loadingDelivered && <Loader />}
+                   {
+                    userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                        <ListGroup.Item className='row justify-content-md-center'>
+                            <Button
+                            variant="outline-danger"
                             type='button'
-                            className='btn=block'
-                            disabled={cart.cartItems === 0}
-                            onClick={placeOrderHandler}>Place Order</Button>
-                    </ListGroup.Item> */}
-                    <div id="paypal-button-container">PayPalDiv
-                    <PayPalScriptProvider options={{ "client-id": "test" }}> 
-                                <PayPalButtons amount={order.totalPrice} style={{ layout: "horizontal" }} />
-                        </PayPalScriptProvider></div>
-                    
+                         
+                            className='btn-block'
+                            onClick={deliverHandler}
+                            >Mark as DELIVERED</Button>
+                        </ListGroup.Item>
+                    )
+                   }
                 </ListGroup>
             </Card>
         </Col>
@@ -227,7 +232,7 @@ const OrderScreen = ( ) => {
 
 export default OrderScreen
 
-// Comments/resources
+//-------Comments/resources-------//
 //https://www.npmjs.com/package/@paypal/react-paypal-js
 // https://www.npmjs.com/package/react-paypal-button-v2
 //https://developer.paypal.com/sdk/js/configuration/

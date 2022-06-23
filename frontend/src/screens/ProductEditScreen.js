@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {useState, useEffect} from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Form, Button} from 'react-bootstrap';
@@ -21,6 +22,8 @@ const ProductEditScreen = () => {
     const [category, setCategory] =useState('');
     const [countInStock, setCountInStock] =useState(0);
     const [description, setDescription] =useState('');
+    //-------for Multer image upload functionality-------/
+    const [uploading, setUploading] =useState(false);
     
     const productDetails = useSelector(state => state.productDetails);
     const {loading, error, product} = productDetails;
@@ -47,7 +50,8 @@ const ProductEditScreen = () => {
         }
            
     }, [dispatch, productId, product, navigate, successUpdate])
-    
+
+//---START---- Handlers-------//
     const submitHandler = (e) => {
       e.preventDefault()
     //    console.log('update product')
@@ -60,9 +64,35 @@ const ProductEditScreen = () => {
             category, 
             countInStock,
             description} 
-        ))
+        ))}
+    const uploadFileHandler = async (e) => {
+    //------- since only one file is gonna be uploaded it is the first item in the array-------//
+        const file = e.target.files[0];
+        const formData = new FormData();
+    //-------make sure this 'image' matches the name you gave to the upload in the backend-------// 
+        formData.append('image', file);
+        console.log(formData)
+        console.log(e.target.files[0])
+        setUploading(true);
+        try{
+        //---like for the headers, the content type for image upload is very important---//
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }    
+        const {data} = await axios.post('/api/upload', formData, config)
+    //---what is getting passed from the backend is the path and it is the path that is passed in data ntht comes back---//
+        setImage(data);
+        setUploading(false);
+        }catch(error){
+            console.log(error);
+            alert('Only files with extension JPEG, JPG, PNG ')
+            setUploading(false);
+        }
     }
-  
+//---END---- Handlers-------// 
+
       return (
         <>
         <Link to='/admin/productlist' className='btn btn-light my-3'>
@@ -95,7 +125,7 @@ const ProductEditScreen = () => {
             </Form.Control>
           </Form.Group>
 
-          <Form.Group controlId= 'image'>
+          <Form.Group  >
             <Form.Label>Image</Form.Label>
             <Form.Control 
               type='text' 
@@ -103,6 +133,16 @@ const ProductEditScreen = () => {
               value={image} 
               onChange={(e) => setImage(e.target.value)}>
             </Form.Control>
+             
+            <Form.Control 
+            type='file'
+            id='image-file'
+            label='Browse'
+            custom
+            onChange={uploadFileHandler}
+            ></Form.Control>
+            
+            {uploading && <Loader />}
           </Form.Group>
   
           <Form.Group controlId= 'brand'>

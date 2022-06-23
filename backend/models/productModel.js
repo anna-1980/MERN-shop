@@ -4,6 +4,11 @@ const reviewSchema =  mongoose.Schema({
   name: {type: String, require: true},
   rating: {type: Number, require: true},
   comment: {type: String, require: true},
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',   
+  },
 }, {
   timestamps: true,
 })
@@ -14,7 +19,6 @@ const productSchema =  mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'User',   
-
     //if you want to know which Admin user created which product, 
     // you need to reference specific Model for this object ID 
     // that adds the relation betwween the product and the user
