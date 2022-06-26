@@ -23,12 +23,15 @@ import axios from 'axios';
 //action creator function, actions are the : case PRODUCT_LIST_REQUEST: return { loading: true, products: [] }
 // actions are being dispatched to a reducer          
 
-   export const listProducts = () => async (dispatch) => {      // what thinks allows to do is add a function witho=in a function like async so:
+//-------to use search we need the keyword , passed from the Home component using params (paramsKeyword)-------//
+   export const listProducts = (paramsKeyword = '') => async (dispatch) => {      // what thinks allows to do is add a function witho=in a function like async so:
        //the above function/action has to be fired in the component to work in HOME-Screen
         try {
             dispatch({type:PRODUCT_LIST_REQUEST })
-
-            const { data } = await axios.get('/api/products') //this should give us the data
+            // this should give us the data//
+            // const { data } = await axios.get('/api/products') 
+//------- using the paramskeyword for searching the validation for if it is empty show all products if there is keyword show that products is the the backend productController-------//
+        const { data } = await axios.get( `/api/products?searchKeyword=${paramsKeyword}` )
             //now
             dispatch ({
                 type: PRODUCT_LIST_SUCCESS,

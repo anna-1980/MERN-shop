@@ -1,5 +1,6 @@
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {Row, Col} from 'react-bootstrap';
+import {useParams} from 'react-router-dom';
 import Product from '../components/Product';
 // import axios from 'axios';
 // import products from '../../products'
@@ -10,9 +11,10 @@ import Message from '../components/Message.js';
 import Loader from '../components/Loader.js';
 
 const HomeScreen = () => {
-  // const [products, setProducts = useState([])
+//-------for the search functionality-------//
+  const paramsKeyword = useParams();
 
-  //to muse Dispatch we need to declare a var and set it to useDispatch
+  //to use Dispatch we need to declare a var and set it to useDispatch
   const dispatch = useDispatch();
 
   const productList = useSelector( state => state.productList )  //grabb the piece of state the way you called it in the STORE: const reducer = combineReducers({ productList: productListReducer,
@@ -21,10 +23,10 @@ const HomeScreen = () => {
   const {userInfo} = userLogin;
   
   useEffect(() => {
-
-    dispatch(listProducts()) //fire the action to get the products, through the REDUCER down to STATE
-  
-  }, [dispatch])
+//-------if search keyword enteresd, see productActions-------//
+    dispatch(listProducts(paramsKeyword.keyword)) //fire the action to get the products, through the REDUCER down to STATE
+    console.log(paramsKeyword.keyword)
+  }, [dispatch, paramsKeyword])
 
   const currentUser = true ||  userInfo.name;
   // console.log(userInfo.name);
@@ -66,7 +68,7 @@ const HomeScreen = () => {
       )               
        }
 
-     
+     { products.length === 0 && <Message variant='warning'>Sorry, no product match</Message> }
 
     </>
   )

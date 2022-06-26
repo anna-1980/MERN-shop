@@ -7,7 +7,18 @@ import Product from '../models/productModel.js'
 // @access public
 
 const getProducts = asyncHandler(async (req, res) => {
-    const products = await Product.find({})
+//-------if including the search keyword, see if this is empty and we get all the products or we get only keyword matching the product(s)-------//
+//-----req.query. is how you get the query strings, 
+//-----if there is a ? in the url this is how you get whatever is after, 
+//-----in this case searchKeyword from const { data } = await axios.get( `/api/products?searchKeyword=${paramsKeyword}`) in ProductActions-------//
+  const keyword = req.query.searchKeyword ? {
+    name: {
+      //regular expression//
+      $regex: req.query.searchKeyword, //partial match is enough
+      $options: 'i', //makes it key insensitive
+    }
+  } : {}
+    const products = await Product.find({...keyword})
    
     res.json(products)
 })
