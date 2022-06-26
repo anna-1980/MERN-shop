@@ -19,7 +19,7 @@ const ProductScreen = () => {
 //-------state for local component-------//
   const [qtn, setQtn]= useState(1);
   const [rating, setRating]= useState(0);
-  const [comment, setComment]= useState('');
+  const [userComment, setUserComment]= useState('');
 
 //-------Bring from redux state-------//
 const productDetails = useSelector(state => state.productDetails)
@@ -37,23 +37,23 @@ const {error: errorProductReview, success: successProductReview } = productRevie
     e.preventDefault()
     dispatch(createProductReview(params.id, {
     //-----comming in from the component state-----//
+      comment: userComment,
       rating, 
-      comment
      }
-    ))
+     ))
+     console.log(userComment)
   }  
   const addToCartHandler = () => {
     // console.log(navigate);
     navigate(`/cart/${params.id}?qty=${qtn}`);
     // history.push(`/cart/${params.id}?qty=${qty}`)
   }
-  console.log(comment)
   useEffect(() => {
     
     if(successProductReview){
       alert('Review Submitted!')
       setRating(0)
-      setComment('')
+      setUserComment('')
       dispatch({type: PRODUCT_CREATE_REVIEW_RESET})
     }
     dispatch(listProductDetails(params.id))
@@ -198,8 +198,8 @@ const {error: errorProductReview, success: successProductReview } = productRevie
                   <Form.Control
                   as='textarea'
                   row='3'
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
+                  value={userComment}
+                  onChange={(e) => setUserComment(e.target.value)}
                   ></Form.Control>
                   <Button
                   type='submit'

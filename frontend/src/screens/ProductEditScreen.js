@@ -71,8 +71,8 @@ const ProductEditScreen = () => {
         const formData = new FormData();
     //-------make sure this 'image' matches the name you gave to the upload in the backend-------// 
         formData.append('image', file);
-        console.log(formData)
-        console.log(e.target.files[0])
+        // console.log(formData)
+        // console.log(e.target.files[0])
         setUploading(true);
         try{
         //---like for the headers, the content type for image upload is very important---//
