@@ -7,6 +7,10 @@ import Product from '../models/productModel.js'
 // @access public
 
 const getProducts = asyncHandler(async (req, res) => {
+//-------PAGINATION--------------------------------------//
+const pageSize = 2;
+const currentPageNumber = Number(req.query.pageNumber) || 1;
+
 //-------if including the search keyword, see if this is empty and we get all the products or we get only keyword matching the product(s)-------//
 //-----req.query. is how you get the query strings, 
 //-----if there is a ? in the url this is how you get whatever is after, 
@@ -18,9 +22,13 @@ const getProducts = asyncHandler(async (req, res) => {
       $options: 'i', //makes it key insensitive
     }
   } : {}
-    const products = await Product.find({...keyword})
-   
-    res.json(products)
+//-------you have to get the total number of the pages to be displyed----------------//
+    const countPages = await Product.countDocuments({...keyword})
+    //-------for keeping track of already diaplayed products on the previous page use skip--------//
+    const products = await Product.find({...keyword}).limit(pageSize).skip(pageSize*(currentPageNumber -1))
+//-------for PAGINATION in addition to product you have to return currentPageNumber, and total number of pages; otherwise you can use - res.json(products) - only
+    res.json({products, currentPageNumber, pages: Math.ceil(countPages / pageSize)})
+
 })
 
 // description Fetch all products 

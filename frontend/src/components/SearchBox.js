@@ -32,7 +32,7 @@ const submitHandler = (e) => {
             <Col>
             <Button 
             type="submit"
-            variant='outline-success'
+            variant='outline-info'
             className="p-2 ">
                 Search
             </Button>

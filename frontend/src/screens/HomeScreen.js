@@ -9,11 +9,12 @@ import  { listProducts } from '../actions/ProductActions.js'; //you fire it off 
 
 import Message from '../components/Message.js';
 import Loader from '../components/Loader.js';
+import Pagination from '../components/Pagination';
 
 const HomeScreen = () => {
 //-------for the search functionality-------//
-  const paramsKeyword = useParams();
-
+  const params = useParams();
+  const pageNumber = params.pageNumber;
   //to use Dispatch we need to declare a var and set it to useDispatch
   const dispatch = useDispatch();
 
@@ -24,9 +25,9 @@ const HomeScreen = () => {
   
   useEffect(() => {
 //-------if search keyword enteresd, see productActions-------//
-    dispatch(listProducts(paramsKeyword.keyword)) //fire the action to get the products, through the REDUCER down to STATE
-    console.log(paramsKeyword.keyword)
-  }, [dispatch, paramsKeyword])
+    dispatch(listProducts(params.keyword , pageNumber)) //fire the action to get the products, through the REDUCER down to STATE
+    // console.log(paramsKeyword.keyword)
+  }, [dispatch, params.keyword, pageNumber])
 
   const currentUser = true ||  userInfo.name;
   // console.log(userInfo.name);
@@ -69,7 +70,7 @@ const HomeScreen = () => {
        }
 
      { products.length === 0 && <Message variant='warning'>Sorry, no product match</Message> }
-
+     <Pagination />
     </>
   )
 }
