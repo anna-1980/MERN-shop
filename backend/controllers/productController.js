@@ -7,6 +7,9 @@ import Product from '../models/productModel.js'
 // @access public
 
 const getProducts = asyncHandler(async (req, res) => {
+//-------PAGINATION--------------------------------------//
+const pageSize = 4;
+const currentPage = Number() 
 //-------if including the search keyword, see if this is empty and we get all the products or we get only keyword matching the product(s)-------//
 //-----req.query. is how you get the query strings, 
 //-----if there is a ? in the url this is how you get whatever is after, 
