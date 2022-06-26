@@ -31,6 +31,7 @@ const App = () => {
           <Routes>
            {/* <Route index element= {<HomeScreen />} />  */}
             <Route path='/' element= {<HomeScreen />} />
+            <Route path='/search/:keyword' element= {<HomeScreen />} />
             <Route path='/register' element= {<RegisterScreen />} />
             <Route path='/login' element= {<LoginScreen />} />
             <Route path='/profile' element= {<ProfileScreen />} />

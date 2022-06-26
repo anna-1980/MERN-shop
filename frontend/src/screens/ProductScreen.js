@@ -19,7 +19,7 @@ const ProductScreen = () => {
 //-------state for local component-------//
   const [qtn, setQtn]= useState(1);
   const [rating, setRating]= useState(0);
-  const [revComment, setRevComment]= useState('');
+  const [userComment, setUserComment]= useState('');
 
 //-------Bring from redux state-------//
 const productDetails = useSelector(state => state.productDetails)
@@ -37,28 +37,28 @@ const {error: errorProductReview, success: successProductReview } = productRevie
     e.preventDefault()
     dispatch(createProductReview(params.id, {
     //-----comming in from the component state-----//
+      comment: userComment,
       rating, 
-      revComment
      }
-    ))
+     ))
+     console.log(userComment)
   }  
   const addToCartHandler = () => {
     // console.log(navigate);
     navigate(`/cart/${params.id}?qty=${qtn}`);
     // history.push(`/cart/${params.id}?qty=${qty}`)
   }
-
   useEffect(() => {
     
     if(successProductReview){
       alert('Review Submitted!')
       setRating(0)
-      setRevComment('')
+      setUserComment('')
       dispatch({type: PRODUCT_CREATE_REVIEW_RESET})
     }
     dispatch(listProductDetails(params.id))
-    console.log(`object ${Object.values(product)}`)
-    console.log(`problem getting reviews displayed ${product.createdAt}`)
+    // console.log(`object ${Object.values(product)}`)
+    // console.log(`problem getting reviews displayed ${product.createdAt}`)
      
     // console.log(params);
   }, [dispatch, successProductReview   ])
@@ -157,22 +157,25 @@ const {error: errorProductReview, success: successProductReview } = productRevie
           <h2>Reviews</h2>
           {product.reviews.length === 0 && <Message variant='warning'>No reviews yet</Message>}
           <ListGroup variant="flush">
-              {product.reviews.map(reviews => ( 
+              {product.reviews.map((rev) => ( 
                 // console.log(rev)
-                <ListGroup.Item key = {reviews._id}>
-                  <strong>{reviews.name}</strong>
+                <ListGroup.Item key = {rev._id}>
+                  <strong>{rev.name}</strong>
                   <Rating 
-                  value={reviews.rating}
-                  text={`${reviews.numReviews}`}
+                  value={rev.rating}
+                  
                   />
-                  <p>{reviews.createdAt.substring(0, 10)}</p>
+                  <p>{rev.createdAt.substring(0, 10)}</p>
                   <p>Review Comment:</p>
-                  <p>{reviews.comment}</p>
+                  <p>{rev.comment}</p>
                 </ListGroup.Item> 
                ))
               }
             <ListGroup.Item>
               <h2>Write a customer review</h2>
+              {errorProductReview && (
+                <Message variant='danger'>{errorProductReview}</Message>
+              )}
               {userInfo ? 
               (
                 <Form onSubmit={submitHandler}>
@@ -195,8 +198,8 @@ const {error: errorProductReview, success: successProductReview } = productRevie
                   <Form.Control
                   as='textarea'
                   row='3'
-                  value={revComment}
-                  onChange={(e) => setRevComment(e.target.value)}
+                  value={userComment}
+                  onChange={(e) => setUserComment(e.target.value)}
                   ></Form.Control>
                   <Button
                   type='submit'
