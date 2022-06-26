@@ -24,18 +24,19 @@ import axios from 'axios';
 // actions are being dispatched to a reducer          
 
 //-------to use search we need the keyword , passed from the Home component using params (paramsKeyword)-------//
-   export const listProducts = (paramsKeyword = '') => async (dispatch) => {      // what thinks allows to do is add a function witho=in a function like async so:
+//-------after adding PAGINATION there are more arguments in the listProduct function including, 
+   export const listProducts = (paramsKeyword = '',  pageNumber = '') => async (dispatch) => {      // what thinks allows to do is add a function witho=in a function like async so:
        //the above function/action has to be fired in the component to work in HOME-Screen
         try {
             dispatch({type:PRODUCT_LIST_REQUEST })
             // this should give us the data//
             // const { data } = await axios.get('/api/products') 
 //------- using the paramskeyword for searching the validation for if it is empty show all products if there is keyword show that products is the the backend productController-------//
-        const { data } = await axios.get( `/api/products?searchKeyword=${paramsKeyword}` )
+        const { data } = await axios.get( `/api/products?searchKeyword=${paramsKeyword}&pageNumber=${ pageNumber}` )
             //now
             dispatch ({
                 type: PRODUCT_LIST_SUCCESS,
-                payload: data
+                payload: data  //---after implementing pagination data is including more parameter which we have to account for in the reducer
             })
         } catch (error) {
             dispatch({

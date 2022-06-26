@@ -17,6 +17,7 @@ import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import ProductOrderListScreen from './screens/ProductOrderListScreen'
+import Pagination from './components/Pagination'
  
 
 const App = () => {
@@ -29,9 +30,11 @@ const App = () => {
         <Container>
           
           <Routes>
-           {/* <Route index element= {<HomeScreen />} />  */}
-            <Route path='/' element= {<HomeScreen />} />
+            <Route path="/" element={< HomeScreen/>} />
+            <Route path="/page/:pageNumber" element={< HomeScreen/>} />
             <Route path='/search/:keyword' element= {<HomeScreen />} />
+            <Route path="/search/:keyword/page/:pageNumber" element={< HomeScreen />} />
+          
             <Route path='/register' element= {<RegisterScreen />} />
             <Route path='/login' element= {<LoginScreen />} />
             <Route path='/profile' element= {<ProfileScreen />} />
