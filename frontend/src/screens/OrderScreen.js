@@ -1,7 +1,7 @@
 import { useEffect, useState} from 'react';
 import axios from 'axios';
 import { PayPalButton } from 'react-paypal-button-v2';
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+ 
 import { Button, Row, Col, ListGroup, Image, Card} from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import   {useDispatch, useSelector}  from 'react-redux';
@@ -193,12 +193,12 @@ const OrderScreen = ( ) => {
                     {!order.isPaid && (
                         <ListGroup.Item>
                             {loadingPay && <Loader />}
-                            <PayPalScriptProvider options={{ "client-id": "test" }}> 
+                             
                                 <PayPalButton
                                 amount={order.totalPrice}
                                 onSuccess={successPaymentHandler}
                                 ></PayPalButton>
-                             </PayPalScriptProvider>
+                          
                         </ListGroup.Item>
                     )}
                     {loadingDelivered && <Loader />}
