@@ -8,7 +8,7 @@ import Product from '../models/productModel.js'
 
 const getProducts = asyncHandler(async (req, res) => {
 //-------PAGINATION--------------------------------------//
-const pageSize = 5;
+const pageSize = 6;
 const currentPageNumber = Number(req.query.pageNumber) || 1;
 
 //-------if including the search keyword, see if this is empty and we get all the products or we get only keyword matching the product(s)-------//
