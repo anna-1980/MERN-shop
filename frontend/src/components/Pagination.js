@@ -21,20 +21,22 @@ const Pagination = () => {
  
   return (
     <>
-    <Row className='justify-content-md-center'  >
-        <Col md={1}>
+    <Row xs={3} className='justify-content-md-center text-center'  >
+        <Col sx='auto' md={1}  >
         {keyword 
             ? (<Link to={`${back }`} style={{color: 'grey', textDecoration: 'none'}}>&lt;&lt;{ Number(pageNumber) - 1}&lt;&lt;</Link>)
            :(<Link to={`${back2}`} style={{color: 'red', textDecoration: 'none'}}>&lt;&lt;{ Number(pageNumber) - 1}&lt;&lt;</Link>) }
         </Col>
-        <Col md="auto" >{pageNumber.toString()}</Col>
-        <Col md={1}>
+        <Col sx='auto' md={1}  className="text-center" >{pageNumber.toString()}</Col>
+        <Col sx='auto' md={1} >
             {keyword 
             ? (<Link to={`${forward }`} style={{color: 'grey', textDecoration: 'none'}}>&gt;&gt;{ Number(pageNumber) + 1}&gt;&gt;</Link>)
            :(<Link to={`${forward2 }`} style={{color: 'red', textDecoration: 'none'}}>&gt;&gt;{ Number(pageNumber) + 1}&gt;&gt;</Link>) }
             
         </Col>
-        <Col md={1}>{keyword }</Col>
+    </Row>
+    <Row  className='justify-content-md-center text-center'>
+        <Col sx='auto' md={4} >searched word: {keyword }</Col>
     </Row>
     </>
   )
