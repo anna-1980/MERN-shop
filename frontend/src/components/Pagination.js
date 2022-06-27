@@ -4,7 +4,7 @@ import { useDispatch, useSelector} from 'react-redux';
 import { Row, Col} from 'react-bootstrap';
 import  { listProducts } from '../actions/ProductActions.js'; //you fire it off in useEffects
 
-
+//-------My own Pagination implementation see below :) it looks quite decent-------//
 const Pagination = ({pages, isAdmin=false}) => {
     const dispatch = useDispatch();
     let params = useParams() ;
