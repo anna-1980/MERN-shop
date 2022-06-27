@@ -38,7 +38,7 @@ const ProductListScreen = () => {
 
   const createProductHandler = (product) => {
     dispatch(createNewProduct());
-    console.log(productCreateNew)
+    // console.log(productCreateNew)
   }
   // console.log(productCreateNew.product._id)
 

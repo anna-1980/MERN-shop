@@ -17,9 +17,7 @@ import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import ProductOrderListScreen from './screens/ProductOrderListScreen'
-import Pagination from './components/Pagination'
  
-
 const App = () => {
   return (
     <>

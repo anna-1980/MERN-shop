@@ -1,12 +1,8 @@
-import {useEffect} from 'react';
 import {useParams, Link} from 'react-router-dom';
-import { useDispatch, useSelector} from 'react-redux';
 import { Row, Col} from 'react-bootstrap';
-import  { listProducts } from '../actions/ProductActions.js'; //you fire it off in useEffects
 
 //------My own Pagination implementation see below :) it looks quite decent-------//
 const Pagination = ({pages, isAdmin=false}) => {
-    const dispatch = useDispatch();
     let params = useParams() ;
     let keyword = params.keyword;
     let pageNumber = params.pageNumber || 1;
@@ -60,8 +56,3 @@ const Pagination = ({pages, isAdmin=false}) => {
 }
 
 export default Pagination
-
-
-{/* <Link to={`/search/${keyword }/page/${ Number(pageNumber) - 1}`}  style={{color: 'grey', textDecoration: 'none'}}>&lt;&lt;{(pageNumber)-1}&lt;&lt;</Link>
-
-<Link to={`${forward }`} style={{color: 'grey', textDecoration: 'none'}}>&gt;&gt;{ Number(pageNumber) + 1}&gt;&gt;</Link> */}

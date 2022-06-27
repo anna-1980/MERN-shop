@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
-import {Row, Col} from 'react-bootstrap';
-import {useParams} from 'react-router-dom';
+import {Row, Col, Button} from 'react-bootstrap';
+import {useParams, useNavigate} from 'react-router-dom';
 import Product from '../components/Product';
 // import axios from 'axios';
 // import products from '../../products'
@@ -12,11 +12,13 @@ import Loader from '../components/Loader.js';
 import Pagination from '../components/Pagination';
 
 const HomeScreen = () => {
-//-------for the search functionality-------//
+const navigate = useNavigate();
+//to use Dispatch we need to declare a var and set it to useDispatch
+const dispatch = useDispatch();
+//-------for the search functionality--------------------------------//
   const params = useParams();
   const pageNumber = params.pageNumber;
-  //to use Dispatch we need to declare a var and set it to useDispatch
-  const dispatch = useDispatch();
+
 
   const productList = useSelector( state => state.productList )  //grabb the piece of state the way you called it in the STORE: const reducer = combineReducers({ productList: productListReducer,
   const { loading, error, products, currentPageNumber, pages} = productList //destructures parts of that state that could be sent down, you jut pull it from the state here
@@ -25,16 +27,21 @@ const HomeScreen = () => {
   const {userInfo} = userLogin;
   
   useEffect(() => {
-//-------if search keyword enteresd, see productActions-------//
+//-------if search keyword enteresd, see productActions--------------//
     dispatch(listProducts(params.keyword , pageNumber)) //fire the action to get the products, through the REDUCER down to STATE
     // console.log(paramsKeyword.keyword)
   }, [dispatch, params.keyword, pageNumber])
-
-  const currentUser = true ||  userInfo.name;
   // console.log(userInfo.name);
+
+//-------Handlers----------------------------------------------------//
+const continueShoppingHandler = () => {
+  navigate(`/`);
+}
+
   return (
     <> 
       <h1>Latest product</h1>
+{/* //-------Display loggen in user name-----------------------------// */}    
       {  userInfo  ? (
          
          <Col sx={6} md={6}>
@@ -48,8 +55,19 @@ const HomeScreen = () => {
       <h4>Welcome stranger</h4>
       </Col>)
        }
-
-
+{/* //-------show go back button after search complete----------------// */}
+{ params.keyword && (
+         <Row>
+            <Button 
+              type="button" 
+              className="'btn-block ml-auto mb-4"
+              variant="outline-dark"
+              onClick={continueShoppingHandler} >
+                Go Back
+              </Button>
+         </Row>
+      )}
+{/* //-------display available products--------------------------------// */}
       {loading ? (
       <Loader />   //is it loading?
       ) : error ? (          // else, if there is an error we show that error
