@@ -19,7 +19,8 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
 
   const productList = useSelector( state => state.productList )  //grabb the piece of state the way you called it in the STORE: const reducer = combineReducers({ productList: productListReducer,
-  const { loading, error, products} = productList //destructures parts of that state that could be sent down, you jut pull it from the state here
+  const { loading, error, products, currentPageNumber, pages} = productList //destructures parts of that state that could be sent down, you jut pull it from the state here
+  
   const userLogin = useSelector( state => state.userLogin); 
   const {userInfo} = userLogin;
   
@@ -70,7 +71,7 @@ const HomeScreen = () => {
        }
 
      { products.length === 0 && <Message variant='warning'>Sorry, no product match</Message> }
-     <Pagination />
+     <Pagination currentPageNumber={currentPageNumber} pages={pages} />
     </>
   )
 }
