@@ -5,7 +5,7 @@ import { Row, Col} from 'react-bootstrap';
 import  { listProducts } from '../actions/ProductActions.js'; //you fire it off in useEffects
 
 
-const Pagination = () => {
+const Pagination = ({pages, isAdmin=false}) => {
     const dispatch = useDispatch();
     let params = useParams() ;
     let keyword = params.keyword;
@@ -15,25 +15,30 @@ const Pagination = () => {
     let forward =  `/search/${params.keyword}/page/${Number(pageNumber) + 1}` 
     let forward2 =  `/page/${Number(pageNumber) + 1}` 
 
-    console.log(params) 
-    console.log(keyword ) 
-    console.log(pageNumber) 
+    // console.log(params) 
+    // console.log(keyword ) 
+    // console.log(pageNumber) 
+    console.log(`from Pagination total Num of pages: ${pages}`) 
  
   return (
     <>
     <Row xs={3} className='justify-content-md-center text-center'  >
-        <Col sx='auto' md={1}  >
-        {keyword 
-            ? (<Link to={`${back }`} style={{color: 'grey', textDecoration: 'none'}}>&lt;&lt;{ Number(pageNumber) - 1}&lt;&lt;</Link>)
-           :(<Link to={`${back2}`} style={{color: 'red', textDecoration: 'none'}}>&lt;&lt;{ Number(pageNumber) - 1}&lt;&lt;</Link>) }
-        </Col>
+        {pageNumber > 1 && (
+          <Col sx='auto' md={1}  >
+          {keyword 
+              ? (<Link to={`${back }`} style={{color: 'grey', textDecoration: 'none'}}>&lt;&lt;{ Number(pageNumber) - 1}&lt;&lt;</Link>)
+             :(<Link to={`${back2}`} style={{color: 'red', textDecoration: 'none'}}>&lt;&lt;{ Number(pageNumber) - 1}&lt;&lt;</Link>) }
+          </Col>
+        )}
         <Col sx='auto' md={1}  className="text-center" >{pageNumber.toString()}</Col>
-        <Col sx='auto' md={1} >
-            {keyword 
-            ? (<Link to={`${forward }`} style={{color: 'grey', textDecoration: 'none'}}>&gt;&gt;{ Number(pageNumber) + 1}&gt;&gt;</Link>)
-           :(<Link to={`${forward2 }`} style={{color: 'red', textDecoration: 'none'}}>&gt;&gt;{ Number(pageNumber) + 1}&gt;&gt;</Link>) }
-            
-        </Col>
+        {pageNumber < pages &&(
+                  <Col sx='auto' md={1} >
+                  {keyword 
+                  ? (<Link to={`${forward }`} style={{color: 'grey', textDecoration: 'none'}}>&gt;&gt;{ Number(pageNumber) + 1}&gt;&gt;</Link>)
+                 :(<Link to={`${forward2 }`} style={{color: 'red', textDecoration: 'none'}}>&gt;&gt;{ Number(pageNumber) + 1}&gt;&gt;</Link>) }
+                  
+              </Col>
+        ) }
     </Row>
     <Row  className='justify-content-md-center text-center'>
         <Col sx='auto' md={4} >searched word: {keyword }</Col>
