@@ -35,7 +35,9 @@ const Pagination = ({pages, isAdmin=false}) => {
              :(<Link to={!isAdmin ? `${back2}` : `${backAdmin}`} style={paginationStyle}>&lt;&#32;{ Number(pageNumber) - 1}&#32;&lt;</Link>) }
           </Col>
         )}
-        <Col sx='auto' md={1}  className="text-center" >{pageNumber.toString()}</Col>
+        {pages !== 1 && (
+          <Col sx='auto' md={1}  className="text-center" >{pageNumber.toString()}</Col>
+        )}
         {pageNumber < pages &&(
                   <Col sx='auto' md={1} >
                   {keyword 
