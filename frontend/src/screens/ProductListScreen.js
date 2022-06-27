@@ -1,22 +1,24 @@
 import { useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import { Button, Table, Row, Col, Image} from 'react-bootstrap';
 import { LinkContainer} from 'react-router-bootstrap'
 import   {useDispatch, useSelector}  from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message.js';
 import Rating from '../components/Rating';
+import Pagination from '../components/Pagination';
 import { listProducts, deleteProduct, createNewProduct } from '../actions/ProductActions.js';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants.js';
 
 const ProductListScreen = () => {
     let navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const params = useParams();
+  let pageNumber = params.pageNumber;
 //------- bringing in state from reduc (from store.js with useSelector-------//
 
   const productList = useSelector( state => state.productList )  //grabb the piece of state the way you called it in the STORE: const reducer = combineReducers({ productList: productListReducer,
-  const { loading, error, products} = productList //destructures parts of that state that could be sent down, you just pull it from the state here 
+  const { loading, error, products, currentPageNumber, pages} = productList //destructures parts of that state that could be sent down, you just pull it from the state here 
  
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo} = userLogin;
@@ -49,9 +51,9 @@ const ProductListScreen = () => {
     if(successNewProduct){
       navigate(`/admin/product/${productCreateNew.product._id}/edit`);
     }else{
-      dispatch(listProducts())
+      dispatch(listProducts(params.keyword , pageNumber))
     }
-  }, [dispatch, navigate, userInfo, successDelete, successNewProduct, createdNewProduct])
+  }, [dispatch, navigate, userInfo, successDelete, successNewProduct, createdNewProduct, params.keyword, pageNumber])
 
   return (
     <div>
@@ -122,7 +124,7 @@ const ProductListScreen = () => {
             </tbody>
         </Table>
     )}
-    
+   <Pagination currentPageNumber={currentPageNumber} pages={pages} isAdmin={userInfo.isAdmin}/>
     </div>
   )
 }
