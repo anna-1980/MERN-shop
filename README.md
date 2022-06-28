@@ -22,6 +22,7 @@ It is a shop where you can:
   <div>⚡Edit order status change it to Delivered</div>
 
   Tech stack:
+  <br/>
   **Frontend:**
   <div>React app</div>
   <div>Redux</div>
