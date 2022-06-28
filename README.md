@@ -7,30 +7,34 @@ It is a shop where you can:
 - Products Review and RATINGS (limited to one/product for each user)
 - Pagination
 - Make a PASSWORD protected profile to place an order
-  &gt; Choose products, they are added to your cart
-  &gt; Proceed with order, filling up details, shipping address etc.
-  &gt; Pay for order
-  (PayPal sandbox used with react-paypal-button-v2, yes still workable with React18)
-  &gt; Check your order history on your profile
-  &gt; Edit profile details including new password
+
+  <div>⚡ Choose products, they are added to your cart</div>
+  <div>⚡Proceed with order, filling up details, shipping address etc.</div>
+  <div>⚡Pay for order</div>
+  <div>(PayPal sandbox used with react-paypal-button-v2, yes still workable with React18)</div>
+  <div>⚡Check your order history on your profile</div>
+  <div>⚡Edit profile details including new password</div>
+
 - Admin function
-  &gt; Edit users, also make new admins
-  &gt; Edit products in the shop also add new products (including PICTURE UPLOAD)
-  &gt; Edit order status change it to Delivered
+
+  <div>⚡Edit users, also make new admins</div>
+  <div>⚡Edit products in the shop also add new products (including PICTURE UPLOAD)</div>
+  <div>⚡Edit order status change it to Delivered</div>
+
   Tech stack:
   **Frontend:**
-  React app
-  Redux
-  Bootstrap (some custom CSS details)
-  Integrated PayPal API
+  <div>React app</div>
+  <div>Redux</div>
+  <div>Bootstrap (some custom CSS details)</div>
+  <div>Integrated PayPal API</div>
 
-**Backend:**
-Node
-Express
-JWT authentication
-Custom error handler
-MongoDB
-Mongoose
+  **Backend:**
+  <div>Node</div>
+  <div>Express</div>
+  <div>JWT authentication</div>
+  <div>Custom error handler</div>
+  <div>MongoDB</div>
+  <div>Mongoose</div>
 
-**Other:**
-I also used MongoDB Compass, and Postman a lot ;)
+  **Other:**
+  I also used MongoDB Compass, and Postman a lot ;)
